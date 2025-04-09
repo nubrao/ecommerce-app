@@ -1,0 +1,27 @@
+.header {
+    background-color: #001529;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.searchContainer {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.searchInput {
+    width: 300px;
+}
+
+.menu {
+    margin-left: 20px;
+}
