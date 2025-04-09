@@ -1,0 +1,30 @@
+.filters {
+    padding: 20px;
+    background: #FFF;
+    border: 1px solid #E4E7ED;
+    border-radius: 4px;
+}
+
+.filterSection {
+    margin-bottom: 30px;
+}
+
+.filterSection:last-child {
+    margin-bottom: 0;
+}
+
+.categoryItem {
+    margin: 10px 0;
+}
+
+.categoryItem small {
+    color: #8D99AE;
+    margin-left: 5px;
+}
+
+.priceInputs {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    color: #2B2D42;
+}

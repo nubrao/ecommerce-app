@@ -1,18 +1,22 @@
+'use client';
+
 import { createContext, useContext, useState } from 'react';
 
 const WishlistContext = createContext();
+
+export function useWishlist() {
+    const context = useContext(WishlistContext);
+    if (!context) {
+        throw new Error('useWishlist must be used within a WishlistProvider');
+    }
+    return context;
+}
 
 export function WishlistProvider({ children }) {
     const [wishlistItems, setWishlistItems] = useState([]);
 
     const addToWishlist = (product) => {
-        setWishlistItems(prev => {
-            const exists = prev.find(item => item.id === product.id);
-            if (!exists) {
-                return [...prev, product];
-            }
-            return prev;
-        });
+        setWishlistItems(prev => [...prev, product]);
     };
 
     const removeFromWishlist = (productId) => {
@@ -23,16 +27,16 @@ export function WishlistProvider({ children }) {
         return wishlistItems.some(item => item.id === productId);
     };
 
+    const value = {
+        wishlistItems,
+        addToWishlist,
+        removeFromWishlist,
+        isInWishlist
+    };
+
     return (
-        <WishlistContext.Provider value={{
-            wishlistItems,
-            addToWishlist,
-            removeFromWishlist,
-            isInWishlist
-        }}>
+        <WishlistContext.Provider value={value}>
             {children}
         </WishlistContext.Provider>
     );
 }
-
-export const useWishlist = () => useContext(WishlistContext);

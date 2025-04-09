@@ -1,0 +1,24 @@
+.searchResults {
+    padding: 40px 0;
+    background-color: #fbfbfc;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.pagination {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.pagination :global(.ant-pagination-item-active) {
+    background-color: #d10024;
+    border-color: #d10024;
+}
+
+.pagination :global(.ant-pagination-item-active a) {
+    color: #fff;
+}

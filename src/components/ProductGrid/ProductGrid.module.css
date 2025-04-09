@@ -1,0 +1,172 @@
+.productGrid {
+    margin: 0;
+}
+
+.productCard {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.productCard:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+.imageContainer {
+    position: relative;
+    padding: 20px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+}
+
+.productImage {
+    max-height: 160px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.productCard :global(.ant-card-actions) {
+    background: #fafafa !important;
+}
+
+.productCard :global(.ant-card-actions) > li {
+    margin: 0 !important;
+}
+
+.productCard :global(.ant-card-actions) > li > span {
+    display: flex;
+    justify-content: center;
+}
+
+.discount,
+.new {
+    position: absolute;
+    top: 10px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.discount {
+    right: 10px;
+    background-color: #fff;
+    color: #d10024;
+    border: 2px solid #d10024;
+}
+
+.new {
+    left: 10px;
+    background-color: #d10024;
+    color: #fff;
+}
+
+.productInfo {
+    padding: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.category {
+    color: #8d99ae;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.4;
+    height: 2.8em;
+}
+
+.priceContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #d10024;
+}
+
+.oldPrice {
+    font-size: 14px;
+    color: #8d99ae;
+    text-decoration: line-through;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    border-top: 1px solid #e4e7ed;
+    background: #fafafa;
+}
+
+.actionButton {
+    width: 40px !important;
+    height: 40px !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #2b2d42;
+}
+
+.actionButton:hover {
+    color: #d10024;
+    transform: scale(1.1);
+}
+
+.actionButton.active {
+    color: #d10024;
+}
+
+.actionButton.active svg {
+    transform: scale(1.2);
+}
+
+.loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+}
+
+.empty {
+    margin: 40px 0;
+}
+
+@media (max-width: 768px) {
+    .imageContainer {
+        height: 180px;
+    }
+
+    .productImage {
+        max-height: 140px;
+    }
+}

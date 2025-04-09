@@ -1,16 +1,19 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
 import { Layout, Typography, Breadcrumb } from 'antd';
 import { ProductService } from '@/services/api';
 import ProductSection from '@/components/ProductSection/ProductSection';
+import MainLayout from '@/components/Layout/Layout';
 import styles from './Category.module.css';
 
 const { Content } = Layout;
 const { Title } = Typography;
 
 const CategoryPage = () => {
-    const router = useRouter();
-    const { category } = router.query;
+    const params = useParams();
+    const category = params.category;
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -33,7 +36,7 @@ const CategoryPage = () => {
     };
 
     return (
-        <Layout>
+        <MainLayout>
             <Content>
                 <div className={styles.categoryHeader}>
                     <div className={styles.container}>
@@ -43,21 +46,21 @@ const CategoryPage = () => {
                             <Breadcrumb.Item>{category}</Breadcrumb.Item>
                         </Breadcrumb>
                         <Title level={2} className={styles.categoryTitle}>
-                            {category?.charAt(0).toUpperCase() + category?.slice(1)}
+                            {category?.charAt(0).toUpperCase() + category?.slice(1).replace('-', ' ')}
                         </Title>
                     </div>
                 </div>
 
                 <div className={styles.categoryContent}>
                     <div className={styles.container}>
-                        <ProductSection
+                        <ProductSection 
                             products={products}
                             loading={loading}
                         />
                     </div>
                 </div>
             </Content>
-        </Layout>
+        </MainLayout>
     );
 };
 

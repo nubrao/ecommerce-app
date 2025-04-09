@@ -1,0 +1,24 @@
+.breadcrumbSection {
+    padding: 30px 0;
+    background: #FBFBFC;
+    border-bottom: 1px solid #E4E7ED;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.breadcrumb {
+    font-size: 12px;
+}
+
+.breadcrumb :global(.ant-breadcrumb-link) a {
+    color: #8D99AE;
+    text-transform: uppercase;
+}
+
+.breadcrumb :global(.ant-breadcrumb-link) a:hover {
+    color: #D10024;
+}

@@ -1,0 +1,24 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.breadcrumbContainer {
+    padding: 30px 0;
+    background: #FBFBFC;
+    border-bottom: 1px solid #E4E7ED;
+}
+
+.productsSection,
+.categorySection {
+    padding: 40px 0;
+    background-color: #fff;
+}
+
+.categoryTitle {
+    margin-bottom: 30px;
+    color: #2B2D42;
+    font-size: 24px;
+    font-weight: 700;
+}

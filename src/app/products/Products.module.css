@@ -1,0 +1,107 @@
+.breadcrumbContainer {
+    padding: 30px 0;
+    background: #FBFBFC;
+    border-bottom: 1px solid #E4E7ED;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.productsSection {
+    padding: 40px 0;
+    background-color: #FFF;
+}
+
+.storeFilter {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.storeSort {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.sortLabel {
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #2B2D42;
+}
+
+.productsCount {
+    font-size: 12px;
+    color: #8D99AE;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.storeGrid {
+    display: flex;
+    gap: 5px;
+}
+
+.gridButton {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFF;
+    border: 1px solid #E4E7ED;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.gridButton:hover {
+    background-color: #E4E7ED;
+    color: #D10024;
+}
+
+.gridButton.active {
+    background-color: #D10024;
+    border-color: #D10024;
+    color: #FFF;
+}
+
+.pagination {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination :global(.ant-pagination-item-active) {
+    background-color: #D10024;
+    border-color: #D10024;
+}
+
+.pagination :global(.ant-pagination-item-active a) {
+    color: #FFF;
+}
+
+.pagination :global(.ant-pagination-item:hover) {
+    border-color: #D10024;
+}
+
+.pagination :global(.ant-pagination-item:hover a) {
+    color: #D10024;
+}
+
+@media (max-width: 768px) {
+    .storeFilter {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .storeSort {
+        width: 100%;
+        justify-content: space-between;
+    }
+}

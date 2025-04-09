@@ -26,19 +26,18 @@ const Navigation = () => {
     };
 
     return (
-        <nav className={styles.navigation} role="navigation">
+        <nav className={styles.navigation}>
             <div className={styles.container}>
                 <Space size={20} className={styles.categoryNav}>
                     {categories.map(({ id, label }) => (
                         <button
                             key={id}
                             onClick={() => handleCategoryClick(id)}
-                            className={`${styles.categoryButton} ${pathname === `/category/${id}` ||
-                                    (id === 'all' && pathname === '/products')
+                            className={`${styles.categoryButton} ${(id === 'all' && pathname === '/products') ||
+                                    pathname === `/category/${id}`
                                     ? styles.active
                                     : ''
                                 }`}
-                            aria-label={`Ver produtos da categoria ${label}`}
                         >
                             {label}
                         </button>
