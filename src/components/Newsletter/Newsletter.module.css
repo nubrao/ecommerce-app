@@ -2,14 +2,29 @@
     border-top: 2px solid #e4e7ed;
     border-bottom: 3px solid #d10024;
     margin-top: 30px;
+    padding: 40px 0;
+    background: #fff;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
 .newsletter {
     text-align: center;
+    position: relative;
 }
 
 .paragraph {
     font-size: 24px;
+    color: #2b2d42;
+    margin-bottom: 20px;
+}
+
+.paragraph strong {
+    color: #d10024;
 }
 
 .form {
@@ -18,10 +33,26 @@
     margin: 30px auto;
 }
 
+.form::after {
+    content: "\f003";
+    font-family: FontAwesome;
+    position: absolute;
+    font-size: 160px;
+    color: #e4e7ed;
+    top: 15px;
+    transform: translateY(-50%) rotate(15deg);
+    z-index: -1;
+    left: -90px;
+}
+
 .input {
     width: calc(100% - 160px);
     margin-right: -4px;
     border-radius: 40px 0px 0px 40px;
+    height: 40px;
+    padding: 0px 15px;
+    border: 1px solid #e4e7ed;
+    background-color: #fff;
 }
 
 .newsletterBtn {
@@ -30,24 +61,39 @@
     font-weight: 700;
     background: #d10024;
     color: #fff;
+    border: none;
     border-radius: 0px 40px 40px 0px;
+    text-transform: uppercase;
+}
+
+.newsletterBtn:hover {
+    opacity: 0.9;
+    background-color: #d10024 !important;
+    color: #fff !important;
 }
 
 .newsletterFollow {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 30px;
+}
+
+.newsletterFollow :global(.ant-list-items) {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
 
 .socialButton {
-    width: 40px;
-    height: 40px;
-    background-color: #fff;
-    border: 1px solid #e4e7ed;
+    width: 40px !important;
+    height: 40px !important;
+    background-color: #fff !important;
+    border: 1px solid #e4e7ed !important;
+    color: #2b2d42 !important;
     transition: 0.2s all;
 }
 
 .socialButton:hover,
 .socialButton:focus {
-    background-color: #e4e7ed;
-    color: #d10024;
+    background-color: #e4e7ed !important;
+    color: #d10024 !important;
 }

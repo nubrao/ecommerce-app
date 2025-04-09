@@ -1,0 +1,56 @@
+.sectionHeader {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.sectionTitle {
+    position: relative;
+    display: inline-block;
+    color: #2b2d42 !important;
+    margin-bottom: 15px !important;
+    padding-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.sectionTitle::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: #d10024;
+    transition: width 0.3s ease;
+}
+
+.sectionHeader:hover .sectionTitle::after {
+    width: 100px;
+}
+
+.sectionDescription {
+    max-width: 600px;
+    margin: 15px auto 0 !important;
+    color: #8d99ae !important;
+}
+
+.categoryTabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.categoryTab {
+    border-radius: 20px !important;
+    transition: all 0.3s ease;
+}
+
+:global(.ant-radio-button-wrapper-checked).categoryTab {
+    background: #d10024 !important;
+    border-color: #d10024 !important;
+    color: #fff !important;
+}
+
+.categoryTab:hover {
+    color: #d10024;
+}

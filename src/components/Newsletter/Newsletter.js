@@ -7,51 +7,48 @@ const { Paragraph } = Typography;
 
 const Newsletter = () => {
     return (
-        <div id="newsletter" className={`section ${styles.newsletterSection}`}>
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-12">
-                        <div className={styles.newsletter}>
-                            <Paragraph className={styles.paragraph}>
-                                Sign Up for the <strong>NEWSLETTER</strong>
-                            </Paragraph>
-                            <form className={styles.form}>
-                                <Input
-                                    className={styles.input}
-                                    type="email"
-                                    placeholder="Enter Your Email"
-                                />
+        <div className={styles.newsletterSection}>
+            <div className={styles.container}>
+                <div className={styles.newsletter}>
+                    <Paragraph className={styles.paragraph}>
+                        Inscreva-se para receber a <strong>NEWSLETTER</strong>
+                    </Paragraph>
+                    <form className={styles.form}>
+                        <Input
+                            className={styles.input}
+                            type="email"
+                            placeholder="Digite seu email"
+                            aria-label="Digite seu endereço de email"
+                        />
+                        <Button
+                            className={styles.newsletterBtn}
+                            icon={<MailOutlined />}
+                            type="primary"
+                        >
+                            Inscrever-se
+                        </Button>
+                    </form>
+                    <List
+                        className={styles.newsletterFollow}
+                        grid={{ gutter: 16, column: 4 }}
+                        dataSource={[
+                            { icon: <FacebookOutlined />, link: "#", label: "Facebook" },
+                            { icon: <TwitterOutlined />, link: "#", label: "Twitter" },
+                            { icon: <InstagramOutlined />, link: "#", label: "Instagram" },
+                            { icon: <PinterestOutlined />, link: "#", label: "Pinterest" }
+                        ]}
+                        renderItem={item => (
+                            <List.Item>
                                 <Button
-                                    className={styles.newsletterBtn}
-                                    icon={<MailOutlined />}
-                                    type="primary"
-                                    shape="round"
-                                >
-                                    Subscribe
-                                </Button>
-                            </form>
-                            <List
-                                className={styles.newsletterFollow}
-                                grid={{ gutter: 16, column: 4 }}
-                                dataSource={[
-                                    { icon: <FacebookOutlined />, link: "#" },
-                                    { icon: <TwitterOutlined />, link: "#" },
-                                    { icon: <InstagramOutlined />, link: "#" },
-                                    { icon: <PinterestOutlined />, link: "#" }
-                                ]}
-                                renderItem={item => (
-                                    <List.Item>
-                                        <Button
-                                            href={item.link}
-                                            icon={item.icon}
-                                            className={styles.socialButton}
-                                            shape="circle"
-                                        />
-                                    </List.Item>
-                                )}
-                            />
-                        </div>
-                    </div>
+                                    href={item.link}
+                                    icon={item.icon}
+                                    className={styles.socialButton}
+                                    shape="circle"
+                                    aria-label={`Siga-nos no ${item.label}`}
+                                />
+                            </List.Item>
+                        )}
+                    />
                 </div>
             </div>
         </div>

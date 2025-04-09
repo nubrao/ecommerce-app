@@ -69,37 +69,35 @@ const MainHeader = () => {
         fetchCategories();
     }, [selectedCategory]);
 
-    const cartMenu = (
-        <Menu>
-            {cartItems.map((item) => (
-                <Menu.Item key={item.id}>
-                    <div className={styles.productWidget}>
-                        <div className={styles.productImg}>
-                            <img src={item.image} alt={item.name} />
+    const cartMenuItems = {
+        items: [
+            {
+                key: '1',
+                label: (
+                    <div className={styles.cartDropdown}>
+                        <div className={styles.cartList}>
+                            {cartItems.map((item) => (
+                                <div key={item.id} className={styles.cartItem}>
+                                    <img src={item.image} alt={item.name} />
+                                    <div className={styles.cartItemDetails}>
+                                        <span>{item.name}</span>
+                                        <span>${item.price}</span>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                        <div className={styles.productBody}>
-                            <h3 className={styles.productName}>{item.name}</h3>
-                            <h4 className={styles.productPrice}>
-                                <span className={styles.qty}>{item.qty}x</span>${item.price}
-                            </h4>
+                        <div className={styles.cartTotal}>
+                            <span>Total:</span>
+                            <span>${cartTotal}</span>
                         </div>
-                        <Button icon={<FaTimes />} className={styles.deleteBtn} onClick={() => removeItemFromCart(item.id)} />
+                        <div className={styles.cartActions}>
+                            <Button type="primary">Ver Carrinho</Button>
+                            <Button>Checkout</Button>
+                        </div>
                     </div>
-                </Menu.Item>
-            ))}
-            <Menu.Item className={styles.cartSummary}>
-                <small>{cartItems.length} Item(s) selected</small>
-                <h5>SUBTOTAL: ${cartTotal.toFixed(2)}</h5>
-            </Menu.Item>
-            <Menu.Item className={styles.cartBtns}>
-                <Button type="link">View Cart</Button>
-                <Button type="link" icon={<FaArrowCircleRight />}>Checkout</Button>
-            </Menu.Item>
-        </Menu>
-    );
-
-    const removeItemFromCart = (id) => {
-        // Assuming removeItemFromCart is handled in the CartContext
+                ),
+            },
+        ],
     };
 
     return (
@@ -155,7 +153,7 @@ const MainHeader = () => {
                                 <span>Lista de Desejos</span>
                                 <div className={styles.qty}>{wishlistItems.length}</div>
                             </a>
-                            <Dropdown overlay={cartMenu} trigger={['click']}>
+                            <Dropdown menu={cartMenuItems} trigger={['click']}>
                                 <a className={styles.cartLink} aria-label="Carrinho de compras">
                                     <FaShoppingCart />
                                     <span>Seu Carrinho</span>
