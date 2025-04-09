@@ -92,7 +92,9 @@ const MainHeader = () => {
     };
 
     const formatCategoryName = (category) => {
-        return category
+        if (!category || typeof category !== 'string') return '';
+
+        return category.id ? category.name : category
             .split('-')
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
@@ -121,12 +123,12 @@ const MainHeader = () => {
                                             value={selectedCategory}
                                             onChange={handleCategoryChange}
                                             className={styles.inputSelect}
-                                            dropdownMatchSelectWidth={false}
+                                            popupMatchSelectWidth={false}
                                         >
                                             <Option value="all">Todas Categorias</Option>
                                             {categories.map(category => (
-                                                <Option key={category} value={category}>
-                                                    {formatCategoryName(category)}
+                                                <Option key={category.id} value={category.id}>
+                                                    {category.name}
                                                 </Option>
                                             ))}
                                         </Select>

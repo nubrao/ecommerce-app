@@ -1,5 +1,19 @@
 const BASE_URL = 'https://fakestoreapi.com';
 
+const categoryMap = {
+    'mens-clothing': "men's clothing",
+    'womens-clothing': "women's clothing",
+    'electronics': 'electronics',
+    'jewelery': 'jewelery'
+};
+
+const reverseCategoryMap = {
+    "men's clothing": 'mens-clothing',
+    "women's clothing": 'womens-clothing',
+    'electronics': 'electronics',
+    'jewelery': 'jewelery'
+};
+
 export const ProductService = {
     getAll: async () => {
         try {
@@ -8,8 +22,8 @@ export const ProductService = {
             return data.map(product => ({
                 ...product,
                 isNew: Math.random() < 0.3,
-                discount: Math.random() < 0.2 ? Math.floor(Math.random() * 30) + 10 : null, 
-                oldPrice: product.price * 1.2 
+                discount: Math.random() < 0.2 ? Math.floor(Math.random() * 30) + 10 : null,
+                oldPrice: product.price * 1.2
             }));
         } catch (error) {
             console.error('Error fetching all products:', error);
@@ -19,7 +33,8 @@ export const ProductService = {
 
     getByCategory: async (categoryId) => {
         try {
-            const response = await fetch(`${BASE_URL}/products/category/${categoryId}`);
+            const apiCategory = categoryMap[categoryId] || categoryId;
+            const response = await fetch(`${BASE_URL}/products/category/${apiCategory}`);
             const data = await response.json();
             return data.map(product => ({
                 ...product,
@@ -52,7 +67,12 @@ export const ProductService = {
     getCategories: async () => {
         try {
             const response = await fetch(`${BASE_URL}/products/categories`);
-            return await response.json();
+            const categories = await response.json();
+            
+            return categories.map(category => ({
+                id: reverseCategoryMap[category] || category,
+                name: category.charAt(0).toUpperCase() + category.slice(1).replace(/^(.)/, c => c.toUpperCase())
+            }));
         } catch (error) {
             console.error('Error fetching categories:', error);
             throw error;
@@ -65,9 +85,9 @@ export const ProductService = {
             const products = await ProductService.getAll();
 
             return categories.map(category => ({
-                id: category,
-                name: category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' '),
-                count: products.filter(p => p.category === category).length
+                id: category.id,
+                name: category.name,
+                count: products.filter(p => reverseCategoryMap[p.category] === category.id || p.category === category.id).length
             }));
         } catch (error) {
             console.error('Error fetching category stats:', error);

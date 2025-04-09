@@ -1,21 +1,31 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Space } from 'antd';
+import { ProductService } from '@/services/api';
 import styles from './Navigation.module.css';
 
 const Navigation = () => {
     const router = useRouter();
     const pathname = usePathname();
+    const [categories, setCategories] = useState([]);
 
-    const categories = [
-        { id: 'all', label: 'All' },
-        { id: 'electronics', label: 'Electronics' },
-        { id: 'mens-clothing', label: "Men's Clothing" },
-        { id: 'womens-clothing', label: "Women's Clothing" },
-        { id: 'jewelery', label: 'Jewelery' }
-    ];
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+    const fetchCategories = async () => {
+        try {
+            const categoriesData = await ProductService.getCategories();
+            setCategories([
+                { id: 'all', name: 'All' },
+                ...categoriesData
+            ]);
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+        }
+    };
 
     const handleCategoryClick = (categoryId) => {
         if (categoryId === 'all') {
@@ -29,17 +39,18 @@ const Navigation = () => {
         <nav className={styles.navigation}>
             <div className={styles.container}>
                 <Space size={20} className={styles.categoryNav}>
-                    {categories.map(({ id, label }) => (
+                    {categories.map(({ id, name }) => (
                         <button
                             key={id}
                             onClick={() => handleCategoryClick(id)}
-                            className={`${styles.categoryButton} ${(id === 'all' && pathname === '/products') ||
-                                    pathname === `/category/${id}`
+                            className={`${styles.categoryButton} ${
+                                (id === 'all' && pathname === '/products') ||
+                                pathname === `/category/${id}`
                                     ? styles.active
                                     : ''
-                                }`}
+                            }`}
                         >
-                            {label}
+                            {name}
                         </button>
                     ))}
                 </Space>

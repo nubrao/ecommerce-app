@@ -29,7 +29,7 @@ const ProductGrid = ({ products, loading = false }) => {
                                     src={product.image}
                                     className={styles.productImage}
                                 />
-                                {product.discount && (
+                                {product.discount > 0 && (
                                     <span className={styles.discount}>
                                         -{product.discount}%
                                     </span>
@@ -42,24 +42,26 @@ const ProductGrid = ({ products, loading = false }) => {
                         actions={[
                             <button
                                 key="wishlist"
-                                onClick={() => isInWishlist(product.id) ?
-                                    removeFromWishlist(product.id) :
+                                onClick={() => isInWishlist(product.id) ? 
+                                    removeFromWishlist(product.id) : 
                                     addToWishlist(product)
                                 }
-                                className={`${styles.actionButton} ${isInWishlist(product.id) ? styles.active : ''
-                                    }`}
+                                className={`${styles.actionButton} ${
+                                    isInWishlist(product.id) ? styles.active : ''
+                                }`}
                                 aria-label="Adicionar à lista de desejos"
                             >
                                 {isInWishlist(product.id) ? <HeartFilled /> : <HeartOutlined />}
                             </button>,
                             <button
                                 key="cart"
-                                onClick={() => isInCart(product.id) ?
-                                    removeFromCart(product.id) :
+                                onClick={() => isInCart(product.id) ? 
+                                    removeFromCart(product.id) : 
                                     addToCart(product)
                                 }
-                                className={`${styles.actionButton} ${isInCart(product.id) ? styles.active : ''
-                                    }`}
+                                className={`${styles.actionButton} ${
+                                    isInCart(product.id) ? styles.active : ''
+                                }`}
                                 aria-label="Adicionar ao carrinho"
                             >
                                 {isInCart(product.id) ? <ShoppingFilled /> : <ShoppingCartOutlined />}
@@ -70,8 +72,10 @@ const ProductGrid = ({ products, loading = false }) => {
                             <p className={styles.category}>{product.category}</p>
                             <h3 className={styles.title}>{product.title}</h3>
                             <div className={styles.priceContainer}>
-                                <span className={styles.price}>${formatPrice(product.price)}</span>
-                                {product.oldPrice && (
+                                <span className={styles.price}>
+                                    ${formatPrice(product.price)}
+                                </span>
+                                {product.discount > 0 && product.oldPrice && (
                                     <span className={styles.oldPrice}>
                                         ${formatPrice(product.oldPrice)}
                                     </span>
