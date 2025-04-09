@@ -1,0 +1,20 @@
+.productList {
+    margin-top: 30px;
+}
+
+.productList .ant-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.productList .ant-card:hover {
+    transform: translateY(-5px);
+}
+
+.productList .ant-card-meta-title {
+    font-weight: bold;
+}
+
+.productList .ant-card-meta-description {
+    color: #ff3b3f;
+}

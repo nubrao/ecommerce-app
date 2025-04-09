@@ -1,0 +1,41 @@
+.topHeader {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #1e1f29;
+}
+
+.header-link {
+    color: #fff;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.header-link:hover {
+    color: #d10024;
+}
+
+.header-link i {
+    color: #d10024;
+    margin-right: 5px;
+}
+
+.headerText {
+    font-size: 12px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.ant-space > div {
+    margin-right: 15px;
+}
+
+.ant-space > div:last-child {
+    margin-right: 0;
+}

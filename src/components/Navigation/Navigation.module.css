@@ -1,0 +1,51 @@
+.navigation {
+    background: #fff;
+    border-bottom: 2px solid #e4e7ed;
+    border-top: 3px solid #d10024;
+}
+
+.header-ctn {
+    float: right;
+    padding: 15px 0px;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 20px 0;
+}
+
+.nav-toggle {
+    display: none;
+}
+
+.menu-toggle {
+    display: none;
+}
+
+@media only screen and (max-width: 991px) {
+    .responsive-nav {
+        position: fixed;
+        left: 0;
+        top: 0;
+        background: #15161d;
+        height: 100vh;
+        max-width: 250px;
+        width: 0%;
+        overflow: hidden;
+        z-index: 22;
+        padding-top: 60px;
+        transform: translateX(-100%);
+        transition: 0.2s all;
+    }
+
+    .active {
+        transform: translateX(0%);
+        width: 100%;
+    }
+
+    .menu-toggle {
+        display: inline-block;
+    }
+}
