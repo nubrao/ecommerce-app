@@ -8,6 +8,7 @@ import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { ProductService } from '@/services/api';
 import SearchResultItem from '../SearchResultItem/SearchResultItem';
+import WishlistDropdown from '../WishlistDropdown/WishlistDropdown';
 import styles from './MainHeader.module.css';
 
 const { Option } = Select;
@@ -22,6 +23,7 @@ const MainHeader = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
     const [showResults, setShowResults] = useState(false);
+    const [showWishlist, setShowWishlist] = useState(false);
 
     useEffect(() => {
         fetchCategories();
@@ -98,6 +100,15 @@ const MainHeader = () => {
             .split('-')
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
+    };
+
+    const handleWishlistClick = (e) => {
+        e.preventDefault();
+        setShowWishlist(!showWishlist);
+    };
+
+    const handleWishlistClose = () => {
+        setShowWishlist(false);
     };
 
     return (
@@ -178,11 +189,23 @@ const MainHeader = () => {
                     </Col>
                     <Col span={8}>
                         <div className={styles.headerCtn}>
-                            <a href="/wishlist" className={styles.wishlist}>
-                                <FaHeart />
-                                <span>Lista de Desejos</span>
-                                <div className={styles.qty}>{wishlistItems.length}</div>
-                            </a>
+                            <div className={styles.wishlistContainer}>
+                                <a 
+                                    href="/wishlist" 
+                                    className={styles.wishlist}
+                                    onClick={handleWishlistClick}
+                                >
+                                    <FaHeart />
+                                    <span>Lista de Desejos</span>
+                                    <div className={styles.qty}>{wishlistItems.length}</div>
+                                </a>
+                                {showWishlist && (
+                                    <WishlistDropdown 
+                                        onClose={handleWishlistClose}
+                                        items={wishlistItems}
+                                    />
+                                )}
+                            </div>
                             <a href="/cart" className={styles.cartLink}>
                                 <FaShoppingCart />
                                 <span>Seu Carrinho</span>

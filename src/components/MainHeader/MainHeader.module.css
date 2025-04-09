@@ -241,6 +241,11 @@
     padding: 20px;
 }
 
+.wishlistContainer {
+    position: relative;
+    display: inline-block;
+}
+
 .viewAllResults {
     padding: 15px;
     text-align: center;
