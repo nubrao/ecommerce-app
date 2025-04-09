@@ -1,6 +1,8 @@
 .header {
     background-color: #15161d;
     padding: 20px 0;
+    position: relative;
+    z-index: 1000;
 }
 
 .container {
@@ -162,7 +164,6 @@
     background-color: #d10024;
 }
 
-/* Estilos para o dropdown do carrinho */
 .productWidget {
     display: flex;
     padding: 10px;
@@ -259,4 +260,20 @@
 
 .viewAllResults:hover {
     background: #f1f1f1;
+}
+
+.wishlistContainer, .cartContainer {
+    position: relative;
+}
+
+.resultsDropdown, .wishlistDropdown, .cartDropdown {
+    position: absolute;
+    top: 100%;
+    background: white;
+    border: 1px solid #E4E7ED;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    max-height: 80vh;
+    overflow-y: auto;
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Row, Col, Button, Select, Input, Spin } from 'antd';
 import { FaHeart, FaShoppingCart, FaSearch } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
@@ -9,6 +9,7 @@ import { useWishlist } from '@/contexts/WishlistContext';
 import { ProductService } from '@/services/api';
 import SearchResultItem from '../SearchResultItem/SearchResultItem';
 import WishlistDropdown from '../WishlistDropdown/WishlistDropdown';
+import CartDropdown from '../CartDropdown/CartDropdown';
 import styles from './MainHeader.module.css';
 
 const { Option } = Select;
@@ -24,6 +25,13 @@ const MainHeader = () => {
     const [isSearching, setIsSearching] = useState(false);
     const [showResults, setShowResults] = useState(false);
     const [showWishlist, setShowWishlist] = useState(false);
+    const [showCart, setShowCart] = useState(false);
+
+    const closeAllDropdowns = useCallback(() => {
+        setShowWishlist(false);
+        setShowCart(false);
+        setShowResults(false);
+    }, []);
 
     useEffect(() => {
         fetchCategories();
@@ -54,6 +62,24 @@ const MainHeader = () => {
 
         return () => clearTimeout(timer);
     }, [searchQuery, selectedCategory]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            const header = document.querySelector(`.${styles.header}`);
+            const target = event.target;
+
+            const isWishlistClick = target.closest(`.${styles.wishlistContainer}`);
+            const isCartClick = target.closest(`.${styles.cartContainer}`);
+            const isSearchClick = target.closest(`.${styles.searchContainer}`);
+
+            if (header && !header.contains(target) && !isWishlistClick && !isCartClick && !isSearchClick) {
+                closeAllDropdowns();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [closeAllDropdowns]);
 
     const fetchCategories = async () => {
         try {
@@ -87,12 +113,6 @@ const MainHeader = () => {
         router.push(searchPath);
     };
 
-    const handleClickOutside = () => {
-        setTimeout(() => {
-            setShowResults(false);
-        }, 200);
-    };
-
     const formatCategoryName = (category) => {
         if (!category || typeof category !== 'string') return '';
 
@@ -104,11 +124,24 @@ const MainHeader = () => {
 
     const handleWishlistClick = (e) => {
         e.preventDefault();
+        setShowCart(false);
+        setShowResults(false);
         setShowWishlist(!showWishlist);
     };
 
     const handleWishlistClose = () => {
         setShowWishlist(false);
+    };
+
+    const handleCartClick = (e) => {
+        e.preventDefault();
+        setShowWishlist(false);
+        setShowResults(false);
+        setShowCart(!showCart);
+    };
+
+    const handleCartClose = () => {
+        setShowCart(false);
     };
 
     return (
@@ -148,7 +181,7 @@ const MainHeader = () => {
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                             placeholder="Buscar produtos"
                                             className={styles.input}
-                                            onBlur={handleClickOutside}
+                                            onBlur={() => setTimeout(() => setShowResults(false), 200)}
                                         />
                                         <Button
                                             className={styles.searchBtn}
@@ -206,11 +239,22 @@ const MainHeader = () => {
                                     />
                                 )}
                             </div>
-                            <a href="/cart" className={styles.cartLink}>
-                                <FaShoppingCart />
-                                <span>Seu Carrinho</span>
-                                <div className={styles.qty}>{cartItems.length}</div>
-                            </a>
+                            <div className={styles.cartContainer}>
+                                <a 
+                                    href="/cart" 
+                                    className={styles.cartLink}
+                                    onClick={handleCartClick}
+                                >
+                                    <FaShoppingCart />
+                                    <span>Seu Carrinho</span>
+                                    <div className={styles.qty}>{cartItems.length}</div>
+                                </a>
+                                {showCart && (
+                                    <CartDropdown 
+                                        onClose={handleCartClose}
+                                    />
+                                )}
+                            </div>
                         </div>
                     </Col>
                 </Row>

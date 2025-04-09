@@ -1,0 +1,37 @@
+.authContainer {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.authCard {
+    width: 100%;
+    max-width: 400px;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 8px !important;
+}
+
+.subtitle {
+    display: block;
+    text-align: center;
+    color: #8D99AE;
+    margin-bottom: 32px;
+}
+
+.buttonContainer {
+    width: 100%;
+}
+
+.buttonContainer :global(.ant-btn-primary) {
+    background: #D10024;
+    border-color: #D10024;
+}
+
+.buttonContainer :global(.ant-btn-primary:hover) {
+    opacity: 0.9;
+}
