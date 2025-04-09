@@ -1,39 +1,62 @@
-import React, { useEffect, useState } from 'react';
-import { Row, Col, Button, Dropdown, Menu, Select, Input } from 'antd';
-import { FaHeart, FaShoppingCart, FaBars, FaSearch, FaTimes, FaArrowCircleRight } from 'react-icons/fa';
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { Row, Col, Button, Select, Input, Spin } from 'antd';
+import { FaHeart, FaShoppingCart, FaSearch } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
+import { useCart } from '@/contexts/CartContext';
+import { useWishlist } from '@/contexts/WishlistContext';
 import { ProductService } from '@/services/api';
-import { useCart } from '../../contexts/CartContext';
-import { useWishlist } from '../../contexts/WishlistContext';
+import SearchResultItem from '../SearchResultItem/SearchResultItem';
 import styles from './MainHeader.module.css';
 
 const { Option } = Select;
 
 const MainHeader = () => {
-    const [products, setProducts] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState('0');
+    const router = useRouter();
+    const [selectedCategory, setSelectedCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
-    const { cartItems, cartTotal } = useCart();
-    const { wishlistItems } = useWishlist();
+    const [categories, setCategories] = useState([]);
+    const { cartItems = [], cartTotal = 0 } = useCart() || {};
+    const { wishlistItems = [] } = useWishlist() || {};
+    const [searchResults, setSearchResults] = useState([]);
+    const [isSearching, setIsSearching] = useState(false);
+    const [showResults, setShowResults] = useState(false);
 
-    const fetchProducts = async () => {
-        try {
-            let data;
-            if (selectedCategory === '0') {
-                data = await ProductService.getAll();
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+    useEffect(() => {
+        const timer = setTimeout(async () => {
+            if (searchQuery.trim()) {
+                setIsSearching(true);
+                try {
+                    const results = await ProductService.search({
+                        query: searchQuery,
+                        category: selectedCategory,
+                        limit: 5
+                    });
+                    setSearchResults(results.data);
+                    setShowResults(true);
+                } catch (error) {
+                    console.error('Error searching products:', error);
+                } finally {
+                    setIsSearching(false);
+                }
             } else {
-                data = await ProductService.getByCategory(selectedCategory);
+                setSearchResults([]);
+                setShowResults(false);
             }
-            setProducts(data);
-        } catch (error) {
-            console.error('Error fetching products:', error);
-        }
-    };
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [searchQuery, selectedCategory]);
 
     const fetchCategories = async () => {
         try {
-            const data = await ProductService.getCategories();
-            setCategories(data);
+            const categoriesData = await ProductService.getCategories();
+            setCategories(categoriesData);
         } catch (error) {
             console.error('Error fetching categories:', error);
         }
@@ -41,63 +64,38 @@ const MainHeader = () => {
 
     const handleCategoryChange = (value) => {
         setSelectedCategory(value);
-        fetchProducts();
     };
 
-    const handleSearch = async () => {
-        try {
-            let searchResults;
-            if (selectedCategory === '0') {
-                const data = await ProductService.getAll();
-                searchResults = data.filter((product) =>
-                    product.title.toLowerCase().includes(searchQuery.toLowerCase())
-                );
-            } else {
-                const data = await ProductService.getByCategory(selectedCategory);
-                searchResults = data.filter((product) =>
-                    product.title.toLowerCase().includes(searchQuery.toLowerCase())
-                );
-            }
-            setProducts(searchResults);
-        } catch (error) {
-            console.error('Error searching products:', error);
+    const handleSearch = () => {
+        if (!searchQuery.trim() && selectedCategory === 'all') {
+            return;
         }
+
+        const queryParams = new URLSearchParams();
+
+        if (searchQuery.trim()) {
+            queryParams.append('q', searchQuery.trim());
+        }
+
+        if (selectedCategory !== 'all') {
+            queryParams.append('category', selectedCategory);
+        }
+
+        const searchPath = `/search?${queryParams.toString()}`;
+        router.push(searchPath);
     };
 
-    useEffect(() => {
-        fetchProducts();
-        fetchCategories();
-    }, [selectedCategory]);
+    const handleClickOutside = () => {
+        setTimeout(() => {
+            setShowResults(false);
+        }, 200);
+    };
 
-    const cartMenuItems = {
-        items: [
-            {
-                key: '1',
-                label: (
-                    <div className={styles.cartDropdown}>
-                        <div className={styles.cartList}>
-                            {cartItems.map((item) => (
-                                <div key={item.id} className={styles.cartItem}>
-                                    <img src={item.image} alt={item.name} />
-                                    <div className={styles.cartItemDetails}>
-                                        <span>{item.name}</span>
-                                        <span>${item.price}</span>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        <div className={styles.cartTotal}>
-                            <span>Total:</span>
-                            <span>${cartTotal}</span>
-                        </div>
-                        <div className={styles.cartActions}>
-                            <Button type="primary">Ver Carrinho</Button>
-                            <Button>Checkout</Button>
-                        </div>
-                    </div>
-                ),
-            },
-        ],
+    const formatCategoryName = (category) => {
+        return category
+            .split('-')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
     };
 
     return (
@@ -117,49 +115,77 @@ const MainHeader = () => {
                                 e.preventDefault();
                                 handleSearch();
                             }}>
-                                <Select
-                                    value={selectedCategory}
-                                    onChange={handleCategoryChange}
-                                    className={styles.inputSelect}
-                                    aria-label="Selecionar categoria"
-                                >
-                                    <Option value="0">Todas Categorias</Option>
-                                    {categories.map((category, index) => (
-                                        <Option key={index} value={category}>
-                                            {category}
-                                        </Option>
-                                    ))}
-                                </Select>
-                                <Input
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    placeholder="Buscar produtos"
-                                    className={styles.input}
-                                    aria-label="Campo de busca"
-                                />
-                                <Button
-                                    className={styles.searchBtn}
-                                    icon={<FaSearch />}
-                                    onClick={handleSearch}
-                                    aria-label="Buscar"
-                                />
+                                <div className={`${styles.searchContainer} ${showResults && (searchResults.length > 0 || isSearching) ? styles.showResults : ''}`}>
+                                    <div className={styles.searchInputs}>
+                                        <Select
+                                            value={selectedCategory}
+                                            onChange={handleCategoryChange}
+                                            className={styles.inputSelect}
+                                            dropdownMatchSelectWidth={false}
+                                        >
+                                            <Option value="all">Todas Categorias</Option>
+                                            {categories.map(category => (
+                                                <Option key={category} value={category}>
+                                                    {formatCategoryName(category)}
+                                                </Option>
+                                            ))}
+                                        </Select>
+                                        <Input
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            placeholder="Buscar produtos"
+                                            className={styles.input}
+                                            onBlur={handleClickOutside}
+                                        />
+                                        <Button
+                                            className={styles.searchBtn}
+                                            icon={<FaSearch />}
+                                            onClick={handleSearch}
+                                            type="primary"
+                                        />
+                                    </div>
+                                    {showResults && (searchResults.length > 0 || isSearching) && (
+                                        <div className={styles.resultsDropdown}>
+                                            {isSearching ? (
+                                                <div className={styles.loadingContainer}>
+                                                    <Spin size="small" />
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    {searchResults.map((product) => (
+                                                        <SearchResultItem
+                                                            key={product.id}
+                                                            product={product}
+                                                        />
+                                                    ))}
+                                                    {searchResults.length > 0 && (
+                                                        <div
+                                                            className={styles.viewAllResults}
+                                                            onClick={handleSearch}
+                                                        >
+                                                            Ver todos os resultados
+                                                        </div>
+                                                    )}
+                                                </>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
                             </form>
                         </div>
                     </Col>
                     <Col span={8}>
                         <div className={styles.headerCtn}>
-                            <a href="/wishlist" className={styles.wishlist} aria-label="Lista de desejos">
+                            <a href="/wishlist" className={styles.wishlist}>
                                 <FaHeart />
                                 <span>Lista de Desejos</span>
                                 <div className={styles.qty}>{wishlistItems.length}</div>
                             </a>
-                            <Dropdown menu={cartMenuItems} trigger={['click']}>
-                                <a className={styles.cartLink} aria-label="Carrinho de compras">
-                                    <FaShoppingCart />
-                                    <span>Seu Carrinho</span>
-                                    <div className={styles.qty}>{cartItems.length}</div>
-                                </a>
-                            </Dropdown>
+                            <a href="/cart" className={styles.cartLink}>
+                                <FaShoppingCart />
+                                <span>Seu Carrinho</span>
+                                <div className={styles.qty}>{cartItems.length}</div>
+                            </a>
                         </div>
                     </Col>
                 </Row>

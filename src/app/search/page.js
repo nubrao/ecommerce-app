@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Pagination } from 'antd';
 import { useSearchParams } from 'next/navigation';
 import { ProductService } from '@/services/api';
-import Layout from '@/components/Layout';
+import Layout from '../../components/Layout/Layout';
 import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import Filters from '@/components/Filters/Filters';
 import ProductGrid from '@/components/ProductGrid/ProductGrid';

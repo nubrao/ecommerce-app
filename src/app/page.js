@@ -18,20 +18,30 @@ import { WishlistProvider } from '../contexts/WishlistContext';
 const { Content } = Layout;
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [newProducts, setNewProducts] = useState([]);
   const [bestSellers, setBestSellers] = useState([]);
-  const [activeCategory, setActiveCategory] = useState('all');
-
-  const categories = ['All', 'Electronics', 'Clothing', 'Home'];
 
   const fetchProducts = async () => {
     try {
+      setLoading(true);
       const products = await ProductService.getAll();
-      setNewProducts(products.slice(0, 5));
-      setBestSellers(products.slice(5, 10));
+
+      const newItems = products
+        .filter(product => product.isNew)
+        .slice(0, 4);
+
+      const discountedItems = products
+        .filter(product => product.discount)
+        .sort((a, b) => b.discount - a.discount)
+        .slice(0, 4);
+
+      setNewProducts(newItems);
+      setBestSellers(discountedItems);
     } catch (error) {
       console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,17 +65,23 @@ const Home = () => {
                   title="New Products"
                   description="Check out our latest arrivals and discover something new for your collection"
                 />
-                <ProductSection products={newProducts} />
+                <ProductSection
+                  products={newProducts}
+                  loading={loading}
+                />
               </div>
             </section>
 
             <section className={styles.sectionContainer}>
               <div className={styles.sectionWrapper}>
                 <ProductSectionHeader
-                  title="Best Sellers"
-                  description="Our most popular products loved by customers worldwide"
+                  title="Best Deals"
+                  description="Our biggest discounts and best offers"
                 />
-                <ProductSection products={bestSellers} />
+                <ProductSection
+                  products={bestSellers}
+                  loading={loading}
+                />
               </div>
             </section>
 
