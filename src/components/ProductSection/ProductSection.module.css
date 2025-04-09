@@ -251,29 +251,104 @@
 
 .productCard {
     background: #fff;
-    border-radius: 10px;
+    border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    height: 400px; /* Altura fixa para o card */
+    display: flex;
+    flex-direction: column;
 }
 
-.productCard:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+.productCard :global(.ant-card-cover) {
+    height: 200px; /* Altura fixa para a imagem */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+}
+
+.productCard :global(.ant-card-body) {
+    height: 150px; /* Altura fixa para o corpo do card */
+    display: flex;
+    flex-direction: column;
+    padding: 15px !important;
+}
+
+.productCard :global(.ant-card-actions) {
+    height: 50px; /* Altura fixa para a área de ações */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fafafa;
+    margin-top: auto;
+}
+
+.productCard :global(.ant-card-actions) > li {
+    width: auto !important;
+    margin: 0 8px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.productCard :global(.ant-card-actions) > li > span {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .productImage {
     width: 100%;
     height: 200px;
-    object-fit: cover;
-    border-radius: 10px 10px 0 0;
+    object-fit: contain;
+    padding: 20px;
 }
 
 .productInfo {
-    padding: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.productPrice {
-    color: #d10024;
-    font-size: 1.2rem;
-    font-weight: bold;
+.productInfo h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.4;
+    height: 2.8em; /* Altura fixa para o título (2 linhas) */
+}
+
+.actionButton {
+    transition: all 0.3s ease;
+    height: 32px !important;
+    width: 32px !important;
+    min-width: 32px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.actionButton.active {
+    color: #d10024 !important;
+    background-color: #ffeaea !important;
+}
+
+.actionButton:hover {
+    transform: scale(1.1);
+}
+
+.actionButton svg {
+    transition: transform 0.3s ease;
+    font-size: 16px;
+}
+
+.actionButton.active svg {
+    transform: scale(1.2);
 }

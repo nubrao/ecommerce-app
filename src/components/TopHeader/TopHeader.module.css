@@ -1,28 +1,7 @@
 .topHeader {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px 0;
     background-color: #1e1f29;
-}
-
-.header-link {
     color: #fff;
-    font-size: 12px;
-    display: inline-flex;
-    align-items: center;
-    text-decoration: none;
-}
-
-.header-link:hover {
-    color: #d10024;
-}
-
-.header-link i {
-    color: #d10024;
-    margin-right: 5px;
-}
-
-.headerText {
-    font-size: 12px;
 }
 
 .container {
@@ -32,10 +11,61 @@
     padding: 0 15px;
 }
 
-.ant-space > div {
-    margin-right: 15px;
+.headerLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    font-size: 12px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    padding: 4px 8px; /* Aumenta a área clicável */
 }
 
-.ant-space > div:last-child {
-    margin-right: 0;
+.headerLink:hover,
+.headerLink:focus {
+    color: #d10024;
+    text-decoration: underline; /* Melhora feedback visual */
+    outline: 2px solid #d10024; /* Destaque visual para foco */
+    border-radius: 4px;
+}
+
+.headerIcon {
+    color: #d10024;
+    font-size: 14px;
+}
+
+.headerText {
+    color: #fff !important;
+    font-size: 12px;
+    margin: 0;
+}
+
+.contactList,
+.userOptions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Suporte para alto contraste */
+@media screen and (forced-colors: active) {
+    .headerLink:focus {
+        outline: 2px solid ButtonText;
+    }
+
+    .headerIcon {
+        forced-color-adjust: auto;
+    }
+}
+
+/* Suporte para redução de movimento */
+@media (prefers-reduced-motion: reduce) {
+    .headerLink {
+        transition: none;
+    }
+}
+
+.spaceWrapper :global(.ant-space-item) {
+    color: #fff;
 }

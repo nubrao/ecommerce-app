@@ -1,80 +1,143 @@
-#header {
+.header {
     background-color: #15161d;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding: 20px 0; /* Espaçamento vertical ajustado */
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 15px;
+}
+
+.headerLogo {
+    display: flex;
+    align-items: center;
 }
 
 .headerLogo img {
-    display: block;
+    height: 60px;
+    width: auto;
+}
+
+.headerSearch {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
 }
 
 .headerSearch form {
     display: flex;
     align-items: center;
+    width: 100%;
+    height: 40px;
 }
 
 .inputSelect {
-    margin-right: 10px;
-    border-radius: 40px 0px 0px 40px;
+    width: 150px;
+    height: 40px;
+    border-radius: 40px 0 0 40px;
+    border-right: none;
+}
+
+/* Estilização do select do Ant Design */
+.inputSelect :global(.ant-select-selector) {
+    height: 40px !important;
+    border-radius: 40px 0 0 40px !important;
+    border: none !important;
+    display: flex !important;
+    align-items: center !important;
+    background-color: #fff !important;
+}
+
+.inputSelect :global(.ant-select-selection-item) {
+    line-height: 40px !important;
+    padding-left: 15px !important;
+}
+
+.inputSelect :global(.ant-select-arrow) {
+    right: 15px !important;
 }
 
 .input {
-    width: calc(100% - 140px);
-    margin-right: 10px;
+    flex: 1;
+    height: 40px;
+    border-radius: 0;
+    border: 1px solid #e4e7ed;
+    border-left: none;
+    border-right: none;
+    padding: 0 15px;
 }
 
 .searchBtn {
     height: 40px;
-    width: 100px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: #d10024;
-    color: white;
-    font-weight: 700;
     border: none;
-    border-radius: 0px 40px 40px 0px;
+    border-radius: 0 40px 40px 0;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.headerCtn a {
-    color: white;
-    text-align: center;
+.searchBtn:hover {
+    opacity: 0.9;
+    background-color: #d10024;
+    color: #fff;
+}
+
+.headerCtn {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.wishlist,
+.cartLink {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.wishlist svg,
+.cartLink svg {
+    font-size: 20px;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.wishlist span,
+.cartLink span {
+    font-size: 12px;
+    color: #fff;
 }
 
 .qty {
     position: absolute;
     top: -10px;
-    right: 15px;
+    right: -10px;
     width: 20px;
     height: 20px;
     line-height: 20px;
     text-align: center;
     border-radius: 50%;
     font-size: 10px;
-    color: white;
+    color: #fff;
     background-color: #d10024;
 }
 
-.cartLink {
-    display: block;
-    text-align: center;
-    position: relative;
-}
-
-.wishlist {
-    display: inline-block;
-}
-
-.menuToggle {
-    display: inline-block;
-}
-
+/* Estilos para o dropdown do carrinho */
 .productWidget {
     display: flex;
-    justify-content: space-between;
     padding: 10px;
+    align-items: center;
+    gap: 10px;
 }
 
 .productImg img {
@@ -85,30 +148,33 @@
 
 .productBody {
     flex: 1;
-    padding-left: 10px;
 }
 
 .productName {
     font-size: 14px;
-    color: #2b2d42;
+    margin: 0;
 }
 
 .productPrice {
     font-size: 12px;
-    color: #2b2d42;
+    color: #d10024;
+    margin: 0;
+}
+
+.deleteBtn {
+    color: #d10024;
+    border: none;
+    background: transparent;
+    padding: 5px;
 }
 
 .cartSummary {
-    margin-top: 15px;
+    border-top: 1px solid #e4e7ed;
+    padding-top: 10px;
 }
 
 .cartBtns {
     display: flex;
     justify-content: space-between;
-}
-
-.deleteBtn {
-    background-color: transparent;
-    border: none;
-    color: #d10024;
+    margin-top: 10px;
 }

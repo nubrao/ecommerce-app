@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Row, Col, Button, Dropdown, Menu, Select, Input } from 'antd';
 import { FaHeart, FaShoppingCart, FaBars, FaSearch, FaTimes, FaArrowCircleRight } from 'react-icons/fa';
 import { ProductService } from '@/services/api';
+import { useCart } from '../../contexts/CartContext';
+import { useWishlist } from '../../contexts/WishlistContext';
 import styles from './MainHeader.module.css';
 
 const { Option } = Select;
@@ -10,11 +12,9 @@ const MainHeader = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('0');
-    const [cartItems, setCartItems] = useState([
-        { id: 1, name: 'Product 1', qty: 1, price: 980.00, image: '/img/product01.png' },
-        { id: 2, name: 'Product 2', qty: 3, price: 980.00, image: '/img/product02.png' },
-    ]);
     const [searchQuery, setSearchQuery] = useState('');
+    const { cartItems, cartTotal } = useCart();
+    const { wishlistItems } = useWishlist();
 
     const fetchProducts = async () => {
         try {
@@ -44,19 +44,21 @@ const MainHeader = () => {
         fetchProducts();
     };
 
-    // Função de busca
     const handleSearch = async () => {
         try {
-            let data;
+            let searchResults;
             if (selectedCategory === '0') {
-                data = await ProductService.getAll();
+                const data = await ProductService.getAll();
+                searchResults = data.filter((product) =>
+                    product.title.toLowerCase().includes(searchQuery.toLowerCase())
+                );
             } else {
-                data = await ProductService.getByCategory(selectedCategory);
+                const data = await ProductService.getByCategory(selectedCategory);
+                searchResults = data.filter((product) =>
+                    product.title.toLowerCase().includes(searchQuery.toLowerCase())
+                );
             }
-            const filteredProducts = data.filter((product) =>
-                product.title.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-            setProducts(filteredProducts);
+            setProducts(searchResults);
         } catch (error) {
             console.error('Error searching products:', error);
         }
@@ -87,7 +89,7 @@ const MainHeader = () => {
             ))}
             <Menu.Item className={styles.cartSummary}>
                 <small>{cartItems.length} Item(s) selected</small>
-                <h5>SUBTOTAL: ${cartItems.reduce((total, item) => total + item.qty * item.price, 0).toFixed(2)}</h5>
+                <h5>SUBTOTAL: ${cartTotal.toFixed(2)}</h5>
             </Menu.Item>
             <Menu.Item className={styles.cartBtns}>
                 <Button type="link">View Cart</Button>
@@ -97,29 +99,33 @@ const MainHeader = () => {
     );
 
     const removeItemFromCart = (id) => {
-        setCartItems(cartItems.filter((item) => item.id !== id));
+        // Assuming removeItemFromCart is handled in the CartContext
     };
 
     return (
-        <div id="header" className={styles.header}>
+        <header className={styles.header}>
             <div className={styles.container}>
                 <Row justify="space-between" align="middle">
-                    <Col span={8}>
+                    <Col span={4}>
                         <div className={styles.headerLogo}>
-                            <a href="#" className={styles.logo}>
-                                <img src="/img/logo.png" alt="Logo" />
+                            <a href="/" className={styles.logo}>
+                                <img src="/logo.svg" alt="E-commerce Logo" />
                             </a>
                         </div>
                     </Col>
-                    <Col span={8}>
+                    <Col span={12}>
                         <div className={styles.headerSearch}>
-                            <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
+                            <form onSubmit={(e) => {
+                                e.preventDefault();
+                                handleSearch();
+                            }}>
                                 <Select
                                     value={selectedCategory}
                                     onChange={handleCategoryChange}
                                     className={styles.inputSelect}
+                                    aria-label="Selecionar categoria"
                                 >
-                                    <Option value="0">All Categories</Option>
+                                    <Option value="0">Todas Categorias</Option>
                                     {categories.map((category, index) => (
                                         <Option key={index} value={category}>
                                             {category}
@@ -129,46 +135,38 @@ const MainHeader = () => {
                                 <Input
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    placeholder="Search here"
+                                    placeholder="Buscar produtos"
                                     className={styles.input}
+                                    aria-label="Campo de busca"
                                 />
                                 <Button
                                     className={styles.searchBtn}
                                     icon={<FaSearch />}
                                     onClick={handleSearch}
+                                    aria-label="Buscar"
                                 />
                             </form>
                         </div>
                     </Col>
-                    <Col span={8} className={styles.headerCtn}>
-                        <Row justify="end" gutter={16}>
-                            <Col>
-                                <a href="#" className={styles.wishlist}>
-                                    <FaHeart />
-                                    <span>Your Wishlist</span>
-                                    <div className={styles.qty}>2</div>
+                    <Col span={8}>
+                        <div className={styles.headerCtn}>
+                            <a href="/wishlist" className={styles.wishlist} aria-label="Lista de desejos">
+                                <FaHeart />
+                                <span>Lista de Desejos</span>
+                                <div className={styles.qty}>{wishlistItems.length}</div>
+                            </a>
+                            <Dropdown overlay={cartMenu} trigger={['click']}>
+                                <a className={styles.cartLink} aria-label="Carrinho de compras">
+                                    <FaShoppingCart />
+                                    <span>Seu Carrinho</span>
+                                    <div className={styles.qty}>{cartItems.length}</div>
                                 </a>
-                            </Col>
-                            <Col>
-                                <Dropdown menu={cartMenu} trigger={['click']}>
-                                    <a className={styles.cartLink}>
-                                        <FaShoppingCart />
-                                        <span>Your Cart</span>
-                                        <div className={styles.qty}>{cartItems.length}</div>
-                                    </a>
-                                </Dropdown>
-                            </Col>
-                            <Col>
-                                <a href="#" className={styles.menuToggle}>
-                                    <FaBars />
-                                    <span>Menu</span>
-                                </a>
-                            </Col>
-                        </Row>
+                            </Dropdown>
+                        </div>
                     </Col>
                 </Row>
             </div>
-        </div>
+        </header>
     );
 };
 

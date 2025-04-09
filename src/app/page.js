@@ -12,6 +12,8 @@ import TopHeader from '../components/TopHeader/TopHeader';
 import ProductList from '../components/ProductList/ProductList';
 import Navigation from '../components/Navigation/Navigation';
 import Newsletter from '@/components/Newsletter/Newsletter';
+import { CartProvider } from '../contexts/CartContext';
+import { WishlistProvider } from '../contexts/WishlistContext';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -38,21 +40,25 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
-      <TopHeader />
-      <HeaderComponent />
-      <Navigation />
-      <CarouselSection />
+    <CartProvider>
+      <WishlistProvider>
+        <div>
+          <TopHeader />
+          <HeaderComponent />
+          <Navigation />
+          <CarouselSection />
 
-      <div>
-        <ProductSection title="New Products" products={newProducts} />
-        <ProductSection title="Best Sellers" products={bestSellers} />
-      </div>
+          <div>
+            <ProductSection title="New Products" products={newProducts} />
+            <ProductSection title="Best Sellers" products={bestSellers} />
+          </div>
 
-      <Newsletter />
+          <Newsletter />
 
-      <Footer />
-    </div>
+          <Footer />
+        </div>
+      </WishlistProvider>
+    </CartProvider>
   );
 };
 

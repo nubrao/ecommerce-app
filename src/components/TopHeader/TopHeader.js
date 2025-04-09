@@ -9,41 +9,59 @@ const { Text } = Typography;
 
 const TopHeader = () => {
     return (
-        <div id="top-header" className={styles.topHeader}>
-            <div className="container">
+        <header role="banner" className={styles.topHeader}>
+            <div className={styles.container}>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <Space size="large">
-                            <a href="#" className={styles.headerLink}>
-                                <PhoneOutlined />
-                                <Text className={styles.headerText}>+55 47 99209-0669</Text>
-                            </a>
-                            <a href="#" className={styles.headerLink}>
-                                <MailOutlined />
-                                <Text className={styles.headerText}>brunomcamara@outlook.com</Text>
-                            </a>
-                            <a href="#" className={styles.headerLink}>
-                                <EnvironmentOutlined />
-                                <Text className={styles.headerText}>Rua Fake, 1234</Text>
-                            </a>
-                        </Space>
+                        <nav aria-label="Informações de contato" className={styles.spaceWrapper}>
+                            <ul className={styles.contactList}>
+                                <Space size={20} component="li">
+                                    <a href="tel:+5547992090669"
+                                        className={styles.headerLink}
+                                        aria-label="Telefone para contato">
+                                        <PhoneOutlined className={styles.headerIcon} aria-hidden="true" />
+                                        <Text className={styles.headerText}>+55 47 99209-0669</Text>
+                                    </a>
+                                    <a href="mailto:brunomcamara@outlook.com"
+                                        className={styles.headerLink}
+                                        aria-label="Email para contato">
+                                        <MailOutlined className={styles.headerIcon} aria-hidden="true" />
+                                        <Text className={styles.headerText}>brunomcamara@outlook.com</Text>
+                                    </a>
+                                    <a href="#"
+                                        className={styles.headerLink}
+                                        aria-label="Endereço físico">
+                                        <EnvironmentOutlined className={styles.headerIcon} aria-hidden="true" />
+                                        <Text className={styles.headerText}>Rua Fake, 1234</Text>
+                                    </a>
+                                </Space>
+                            </ul>
+                        </nav>
                     </Col>
 
                     <Col>
-                        <Space size="large">
-                            <a href="#" className={styles.headerLink}>
-                                <DollarOutlined />
-                                <Text className={styles.headerText}>USD</Text>
-                            </a>
-                            <a href="#" className={styles.headerLink}>
-                                <UserOutlined />
-                                <Text className={styles.headerText}>Minha Conta</Text>
-                            </a>
-                        </Space>
+                        <nav aria-label="Opções do usuário" className={styles.spaceWrapper}>
+                            <ul className={styles.userOptions}>
+                                <Space size={20} component="li">
+                                    <a href="#"
+                                        className={styles.headerLink}
+                                        aria-label="Selecionar moeda">
+                                        <DollarOutlined className={styles.headerIcon} aria-hidden="true" />
+                                        <Text className={styles.headerText}>USD</Text>
+                                    </a>
+                                    <a href="#"
+                                        className={styles.headerLink}
+                                        aria-label="Acessar minha conta">
+                                        <UserOutlined className={styles.headerIcon} aria-hidden="true" />
+                                        <Text className={styles.headerText}>Minha Conta</Text>
+                                    </a>
+                                </Space>
+                            </ul>
+                        </nav>
                     </Col>
                 </Row>
             </div>
-        </div>
+        </header>
     );
 };
 
