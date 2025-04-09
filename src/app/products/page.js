@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Breadcrumb } from 'antd';
-import Layout from '@/components/Layout/Layout';
+import { Row, Col } from 'antd';
 import { ProductService } from '@/services/api';
+import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import ProductGrid from '@/components/ProductGrid/ProductGrid';
+import LoadingScreen from '@/components/LoadingScreen/LoadingScreen';
 import styles from './Products.module.css';
 
 const ProductsPage = () => {
@@ -27,32 +28,26 @@ const ProductsPage = () => {
         }
     };
 
-    return (
-        <Layout>
-            <div className={styles.breadcrumbContainer}>
-                <div className={styles.container}>
-                    <Breadcrumb
-                        items={[
-                            { title: 'Home', href: '/' },
-                            { title: 'All Products' }
-                        ]}
-                    />
-                </div>
-            </div>
+    if (loading) return <LoadingScreen />;
 
-            <div className={styles.productsSection}>
+    const breadcrumbItems = [
+        { title: 'Home', href: '/' },
+        { title: 'All Products' }
+    ];
+
+    return (
+        <>
+            <Breadcrumb items={breadcrumbItems} />
+            <div className={styles.productsContent}>
                 <div className={styles.container}>
                     <Row>
                         <Col span={24}>
-                            <ProductGrid 
-                                products={products} 
-                                loading={loading}
-                            />
+                            <ProductGrid products={products} />
                         </Col>
                     </Row>
                 </div>
             </div>
-        </Layout>
+        </>
     );
 };
 

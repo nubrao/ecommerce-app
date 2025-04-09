@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { Row, Col, Card } from 'antd';
 import { HeartOutlined, HeartFilled, ShoppingCartOutlined, ShoppingFilled } from '@ant-design/icons';
 import { useCart } from '@/contexts/CartContext';
@@ -8,11 +9,24 @@ import { useWishlist } from '@/contexts/WishlistContext';
 import styles from './ProductGrid.module.css';
 
 const ProductGrid = ({ products, loading = false }) => {
+    const router = useRouter();
     const { addToCart, removeFromCart, isInCart } = useCart();
     const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
     const formatPrice = (price) => {
         return Number(price).toFixed(2);
+    };
+
+    const handleProductClick = (e, productId) => {
+        const isActionButton = e.target.closest(`.${styles.actionButton}`);
+        if (!isActionButton) {
+            router.push(`/product/${productId}`);
+        }
+    };
+
+    const handleActionClick = (e, callback) => {
+        e.stopPropagation();
+        callback();
     };
 
     return (
@@ -22,6 +36,7 @@ const ProductGrid = ({ products, loading = false }) => {
                     <Card
                         hoverable
                         className={styles.productCard}
+                        onClick={(e) => handleProductClick(e, product.id)}
                         cover={
                             <div className={styles.imageContainer}>
                                 <img
@@ -42,10 +57,11 @@ const ProductGrid = ({ products, loading = false }) => {
                         actions={[
                             <button
                                 key="wishlist"
-                                onClick={() => isInWishlist(product.id) ? 
-                                    removeFromWishlist(product.id) : 
-                                    addToWishlist(product)
-                                }
+                                onClick={(e) => handleActionClick(e, () => 
+                                    isInWishlist(product.id) 
+                                        ? removeFromWishlist(product.id) 
+                                        : addToWishlist(product)
+                                )}
                                 className={`${styles.actionButton} ${
                                     isInWishlist(product.id) ? styles.active : ''
                                 }`}
@@ -55,10 +71,11 @@ const ProductGrid = ({ products, loading = false }) => {
                             </button>,
                             <button
                                 key="cart"
-                                onClick={() => isInCart(product.id) ? 
-                                    removeFromCart(product.id) : 
-                                    addToCart(product)
-                                }
+                                onClick={(e) => handleActionClick(e, () => 
+                                    isInCart(product.id) 
+                                        ? removeFromCart(product.id) 
+                                        : addToCart(product)
+                                )}
                                 className={`${styles.actionButton} ${
                                     isInCart(product.id) ? styles.active : ''
                                 }`}

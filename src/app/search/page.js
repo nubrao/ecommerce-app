@@ -8,6 +8,7 @@ import Layout from '../../components/Layout/Layout';
 import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import Filters from '@/components/Filters/Filters';
 import ProductGrid from '@/components/ProductGrid/ProductGrid';
+import LoadingScreen from '@/components/LoadingScreen/LoadingScreen';
 import styles from './Search.module.css';
 
 const SearchResults = () => {
@@ -31,12 +32,12 @@ const SearchResults = () => {
     ];
 
     useEffect(() => {
-        fetchProducts();
+        fetchSearchResults();
     }, [query, category, currentPage, selectedCategories, priceRange]);
 
-    const fetchProducts = async () => {
-        setLoading(true);
+    const fetchSearchResults = async () => {
         try {
+            setLoading(true);
             const response = await ProductService.search({
                 query,
                 category,
@@ -46,7 +47,7 @@ const SearchResults = () => {
                 minPrice: priceRange[0],
                 maxPrice: priceRange[1]
             });
-            
+
             setProducts(response.data);
             setTotalItems(response.total);
         } catch (error) {
@@ -60,6 +61,8 @@ const SearchResults = () => {
         setCurrentPage(page);
         window.scrollTo(0, 0);
     };
+
+    if (loading) return <LoadingScreen />;
 
     return (
         <Layout>

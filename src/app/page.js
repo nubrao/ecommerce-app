@@ -2,18 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { Layout } from 'antd';
-import HeaderComponent from '../components/MainHeader/MainHeader';
 import { ProductService } from '../services/api';
 import CarouselSection from '../components/CarouselSection/CarouselSection';
 import ProductSection from '../components/ProductSection/ProductSection';
 import ProductSectionHeader from '../components/ProductSectionHeader/ProductSectionHeader';
-import Footer from '../components/Footer/Footer';
-import styles from './Home.module.css';
-import TopHeader from '../components/TopHeader/TopHeader';
-import Navigation from '../components/Navigation/Navigation';
 import Newsletter from '@/components/Newsletter/Newsletter';
-import { CartProvider } from '../contexts/CartContext';
-import { WishlistProvider } from '../contexts/WishlistContext';
+import LoadingScreen from '@/components/LoadingScreen/LoadingScreen';
+import styles from './Home.module.css';
 
 const { Content } = Layout;
 
@@ -49,48 +44,40 @@ const Home = () => {
     fetchProducts();
   }, []);
 
+  if (loading) return <LoadingScreen />;
+
   return (
-    <CartProvider>
-      <WishlistProvider>
-        <Layout>
-          <TopHeader />
-          <HeaderComponent />
-          <Navigation />
-          <Content>
-            <CarouselSection />
+    <>
+      <CarouselSection />
 
-            <section className={styles.sectionContainer}>
-              <div className={styles.sectionWrapper}>
-                <ProductSectionHeader
-                  title="New Products"
-                  description="Check out our latest arrivals and discover something new for your collection"
-                />
-                <ProductSection
-                  products={newProducts}
-                  loading={loading}
-                />
-              </div>
-            </section>
+      <section className={styles.sectionContainer}>
+        <div className={styles.sectionWrapper}>
+          <ProductSectionHeader
+            title="New Products"
+            description="Check out our latest arrivals and discover something new for your collection"
+          />
+          <ProductSection
+            products={newProducts}
+            loading={loading}
+          />
+        </div>
+      </section>
 
-            <section className={styles.sectionContainer}>
-              <div className={styles.sectionWrapper}>
-                <ProductSectionHeader
-                  title="Best Deals"
-                  description="Our biggest discounts and best offers"
-                />
-                <ProductSection
-                  products={bestSellers}
-                  loading={loading}
-                />
-              </div>
-            </section>
+      <section className={styles.sectionContainer}>
+        <div className={styles.sectionWrapper}>
+          <ProductSectionHeader
+            title="Best Deals"
+            description="Our biggest discounts and best offers"
+          />
+          <ProductSection
+            products={bestSellers}
+            loading={loading}
+          />
+        </div>
+      </section>
 
-            <Newsletter />
-          </Content>
-          <Footer />
-        </Layout>
-      </WishlistProvider>
-    </CartProvider>
+      <Newsletter />
+    </>
   );
 };
 

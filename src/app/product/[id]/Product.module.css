@@ -1,28 +1,117 @@
-.productContainer {
-    padding: 20px;
-    background-color: #ffffff;
-    max-width: 800px;
+.container {
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 0 15px;
 }
 
-.productCard {
+.breadcrumbContainer {
+    padding: 30px 0;
+    background: #FBFBFC;
+    border-bottom: 1px solid #E4E7ED;
+}
+
+.productSection {
+    padding: 60px 0;
+}
+
+.imageContainer {
+    position: relative;
+    background: #fff;
+    padding: 30px;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    border: 1px solid #E4E7ED;
+    border-radius: 8px;
+    min-height: 400px;
 }
 
-.productImage {
-    width: 100%;
-    max-width: 400px;
-    margin-bottom: 20px;
+.imageContainer img {
+    max-width: 100%;
+    max-height: 350px;
+    object-fit: contain;
 }
 
-.productDetails {
-    text-align: center;
+.discountTag {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 14px;
+    padding: 4px 8px;
 }
 
-.productPrice {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #ff5722;
+.newTag {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 14px;
+    padding: 4px 8px;
+}
+
+.productInfo {
+    padding: 0 15px;
+}
+
+.ratingContainer {
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ratingCount {
+    font-size: 14px;
+}
+
+.priceContainer {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.price {
+    margin: 0 !important;
+    color: #D10024 !important;
+}
+
+.oldPrice {
+    font-size: 20px;
+}
+
+.description {
+    margin: 20px 0;
+}
+
+.actions {
+    margin-top: 30px;
+}
+
+.actions :global(.ant-btn-primary) {
+    background: #D10024;
+    border-color: #D10024;
+}
+
+.actions :global(.ant-btn-primary:hover) {
+    background: #D10024;
+    border-color: #D10024;
+    opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+    .productSection {
+        padding: 30px 0;
+    }
+
+    .imageContainer {
+        padding: 15px;
+        min-height: 300px;
+    }
+
+    .imageContainer img {
+        max-height: 250px;
+    }
+
+    .productInfo {
+        padding: 0;
+    }
 }
