@@ -68,7 +68,7 @@ export const ProductService = {
         try {
             const response = await fetch(`${BASE_URL}/products/categories`);
             const categories = await response.json();
-            
+
             return categories.map(category => ({
                 id: reverseCategoryMap[category] || category,
                 name: category.charAt(0).toUpperCase() + category.slice(1).replace(/^(.)/, c => c.toUpperCase())
@@ -141,6 +141,17 @@ export const ProductService = {
             };
         } catch (error) {
             console.error('Error searching products:', error);
+            throw error;
+        }
+    },
+
+    getFeaturedProducts: async () => {
+        try {
+            const response = await fetch('https://fakestoreapi.com/products?limit=3');
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching featured products:', error);
             throw error;
         }
     }
