@@ -58,3 +58,130 @@
     font-size: 1.5rem;
     margin-bottom: 20px;
 }
+
+.carouselSection {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.slide {
+    position: relative;
+    height: 500px;
+    background: #f4f4f4;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.content {
+    max-width: 550px;
+    z-index: 1;
+}
+
+.subtitle {
+    display: block;
+    font-size: 18px;
+    color: #D10024;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.title {
+    color: #2B2D42 !important;
+    text-transform: uppercase;
+    margin: 0 0 15px !important;
+}
+
+.description {
+    display: block;
+    color: #8D99AE;
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+.button {
+    height: 50px;
+    padding: 0 30px;
+    text-transform: uppercase;
+    font-weight: 700;
+    background: #D10024;
+    border-color: #D10024;
+}
+
+.button:hover {
+    opacity: 0.9;
+    background: #D10024;
+    border-color: #D10024;
+}
+
+.imageWrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #fff;
+}
+
+.carouselSection :global(.ant-carousel .slick-dots) {
+    bottom: 20px;
+}
+
+.carouselSection :global(.ant-carousel .slick-dots li button) {
+    background: #fff;
+    opacity: 0.5;
+}
+
+.carouselSection :global(.ant-carousel .slick-dots li.slick-active button) {
+    opacity: 1;
+    background: #D10024;
+}
+
+.priceTag {
+    margin-bottom: 20px;
+}
+
+.price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #D10024;
+}
+
+@media (max-width: 768px) {
+    .slide {
+        height: 400px;
+    }
+
+    .content {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .imageWrapper {
+        opacity: 0.3;
+        width: 100%;
+    }
+
+    .title {
+        font-size: 24px !important;
+    }
+
+    .subtitle {
+        font-size: 16px;
+    }
+
+    .description {
+        font-size: 14px;
+    }
+}

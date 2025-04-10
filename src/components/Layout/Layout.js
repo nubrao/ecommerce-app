@@ -1,35 +1,44 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Layout as AntLayout } from 'antd';
+import React from 'react';
+import { Layout as AntLayout, BackTop } from 'antd';
+import { UpOutlined } from '@ant-design/icons';
 import TopHeader from '../TopHeader/TopHeader';
 import MainHeader from '../MainHeader/MainHeader';
 import Navigation from '../Navigation/Navigation';
 import Footer from '../Footer/Footer';
-import Newsletter from '../Newsletter/Newsletter';
-import LoadingScreen from '../LoadingScreen/LoadingScreen';
 import styles from './Layout.module.css';
 
 const { Content } = AntLayout;
 
-const Layout = ({ children }) => {
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        setIsLoading(false);
-    }, []);
-
+const Layout = ({ children, hideNavigation = false }) => {
     return (
         <AntLayout className={styles.layout}>
-            {isLoading && <LoadingScreen />}
-            <TopHeader />
-            <MainHeader />
-            <Navigation />
-            <Content className={styles.content}>
+            <header role="banner">
+                <TopHeader />
+                <MainHeader />
+                {!hideNavigation && <Navigation />}
+            </header>
+
+            <Content
+                role="main"
+                className={styles.mainContent}
+                aria-label="Main content"
+            >
                 {children}
-                <Newsletter />
             </Content>
+
             <Footer />
+
+            <BackTop>
+                <div
+                    className={styles.backToTop}
+                    role="button"
+                    aria-label="Back to top"
+                >
+                    <UpOutlined />
+                </div>
+            </BackTop>
         </AntLayout>
     );
 };

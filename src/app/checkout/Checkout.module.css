@@ -1,0 +1,88 @@
+.section {
+    padding: 30px 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.sectionTitle {
+    margin-bottom: 30px;
+}
+
+.sectionTitle h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    color: #2B2D42;
+}
+
+.billingDetails, .orderDetails {
+    background: #fff;
+    padding: 30px;
+    border: 1px solid #E4E7ED;
+    border-radius: 8px;
+}
+
+.orderDetails {
+    position: relative;
+}
+
+.orderSummary {
+    margin: 15px 0;
+}
+
+.orderCol {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #E4E7ED;
+}
+
+.orderCol:last-child {
+    border-top: 2px solid #E4E7ED;
+    border-bottom: none;
+    margin-top: 15px;
+    padding-top: 15px;
+}
+
+.orderTotal {
+    color: #D10024;
+    font-size: 20px;
+}
+
+.paymentMethod {
+    margin: 30px 0;
+}
+
+.paymentOptions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.orderSubmit {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: #D10024;
+    color: #FFF;
+    text-transform: uppercase;
+    font-weight: 700;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s all;
+}
+
+.orderSubmit:hover {
+    opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+    .billingDetails, .orderDetails {
+        margin-bottom: 30px;
+    }
+}

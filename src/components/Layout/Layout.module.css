@@ -1,9 +1,71 @@
 .layout {
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
-    background-color: #FBFBFC;
+    background: #fff;
 }
 
 .content {
     min-height: calc(100vh - 350px);
     background-color: #FBFBFC;
+}
+
+.mainContent {
+    flex: 1;
+    padding-top: 20px;
+    min-height: 280px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.backToTop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color: #D10024;
+    color: #fff;
+    font-size: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.backToTop:hover {
+    background-color: #ff1a1a;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 1200px) {
+    .mainContent {
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .mainContent {
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .mainContent {
+        padding: 0 10px;
+    }
+}
+
+@media (prefers-contrast: high) {
+    .backToTop {
+        background-color: #000;
+        border: 2px solid #fff;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .backToTop {
+        transition: none;
+    }
 }

@@ -1,7 +1,12 @@
 .footer {
-    background: #15161d;
-    color: #b9babc;
-    padding: 60px 0 0;
+    background: #1E1F29;
+    padding: 0;
+    margin: 0;
+}
+
+.mainFooter {
+    padding: 60px 0 30px;
+    background: #15161D;
 }
 
 .container {
@@ -18,36 +23,36 @@
     margin-bottom: 30px;
 }
 
-.footerColumn {
+.footerSection {
     margin-bottom: 30px;
 }
 
-.footerColumn h4 {
-    color: #fff !important;
-    text-transform: uppercase;
+.footerTitle {
+    color: #FFFFFF !important;
+    margin-bottom: 20px !important;
     font-size: 18px !important;
-    margin-bottom: 30px !important;
 }
 
-.footerLinks {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.footerText {
+    color: #B9BABC;
+    display: block;
+    margin-bottom: 20px;
 }
 
-.footerLinks li {
-    margin-bottom: 15px;
+.footerLink {
+    color: #B9BABC;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
 }
 
-.footerLinks a {
-    color: #b9babc !important;
-    transition: color 0.2s ease;
-    font-size: 14px;
+.footerLink:hover {
+    color: #D10024;
 }
 
-.footerLinks a:hover {
-    color: #d10024 !important;
-    text-decoration: none;
+.contactInfo {
+    margin-top: 20px;
 }
 
 .contactItem {
@@ -66,55 +71,70 @@
 }
 
 .bottomFooter {
-    background: #1e1f29;
-    padding: 30px 0;
-    margin-top: 30px;
+    padding: 20px 0;
+    background: #1E1F29;
 }
 
 .copyright {
-    text-align: left;
+    color: #B9BABC;
+    text-align: center;
 }
 
-.copyright span {
-    color: #b9babc;
-    font-size: 12px;
-}
-
-.paymentMethods {
+.footerExtra {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+}
+
+.social {
+    display: flex;
+    gap: 15px;
+}
+
+.socialLink {
+    color: #B9BABC;
+    font-size: 18px;
+    transition: color 0.2s;
+}
+
+.socialLink:hover {
+    color: #D10024;
+}
+
+.payments {
+    display: flex;
+    gap: 10px;
 }
 
 .paymentIcon {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: #b9babc;
-}
-
-.paymentIcon .anticon {
+    color: #B9BABC;
     font-size: 24px;
-    color: #b9babc;
 }
 
 @media (max-width: 768px) {
-    .copyright {
-        text-align: center;
-        margin-bottom: 20px;
+    .mainFooter {
+        padding: 40px 0 20px;
     }
 
-    .paymentMethods {
+    .footerExtra {
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .copyright {
+        text-align: center;
+    }
+
+    .social, .payments {
         justify-content: center;
     }
 }
 
-/* Fix para os títulos do Ant Design */
 .footerColumn :global(.ant-typography) {
     color: #fff;
     margin-bottom: 20px;
 }
 
-/* Fix para os links do Ant Design */
 .footerLinks :global(.ant-typography) {
     color: #b9babc;
 }

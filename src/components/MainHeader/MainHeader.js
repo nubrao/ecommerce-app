@@ -19,7 +19,8 @@ const MainHeader = () => {
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
     const [categories, setCategories] = useState([]);
-    const { cartItems = [], cartTotal = 0 } = useCart() || {};
+    const [isMobile, setIsMobile] = useState(false);
+    const { cartItems = [] } = useCart() || {};
     const { wishlistItems = [] } = useWishlist() || {};
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
@@ -80,6 +81,17 @@ const MainHeader = () => {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [closeAllDropdowns]);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     const fetchCategories = async () => {
         try {
@@ -145,53 +157,66 @@ const MainHeader = () => {
     };
 
     return (
-        <header className={styles.header}>
+        <header className={styles.header} role="banner">
             <div className={styles.container}>
                 <Row justify="space-between" align="middle">
-                    <Col span={4}>
+                    <Col xs={4} sm={4} md={4} lg={4}>
                         <div className={styles.headerLogo}>
-                            <a href="/" className={styles.logo}>
+                            <a href="/" className={styles.logo} aria-label="Go to homepage">
                                 <img src="/logo.svg" alt="E-commerce Logo" />
                             </a>
                         </div>
                     </Col>
-                    <Col span={12}>
-                        <div className={styles.headerSearch}>
+                    <Col xs={20} sm={20} md={12} lg={12}>
+                        <div className={styles.headerSearch} role="search">
                             <form onSubmit={(e) => {
                                 e.preventDefault();
                                 handleSearch();
                             }}>
                                 <div className={`${styles.searchContainer} ${showResults && (searchResults.length > 0 || isSearching) ? styles.showResults : ''}`}>
                                     <div className={styles.searchInputs}>
-                                        <Select
-                                            value={selectedCategory}
-                                            onChange={handleCategoryChange}
-                                            className={styles.inputSelect}
-                                            popupMatchSelectWidth={false}
-                                        >
-                                            <Option value="all">Todas Categorias</Option>
-                                            {categories.map(category => (
-                                                <Option key={category.id} value={category.id}>
-                                                    {category.name}
-                                                </Option>
-                                            ))}
-                                        </Select>
+                                        {!isMobile && (
+                                            <Select
+                                                value={selectedCategory}
+                                                onChange={handleCategoryChange}
+                                                className={styles.inputSelect}
+                                                popupMatchSelectWidth={false}
+                                                aria-label="Select category"
+                                            >
+                                                <Option value="all">All Categories</Option>
+                                                {categories.map(category => (
+                                                    <Option
+                                                        key={category.id}
+                                                        value={category.id}
+                                                        aria-label={category.name}
+                                                    >
+                                                        {category.name}
+                                                    </Option>
+                                                ))}
+                                            </Select>
+                                        )}
                                         <Input
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
-                                            placeholder="Buscar produtos"
+                                            placeholder="Search products"
                                             className={styles.input}
                                             onBlur={() => setTimeout(() => setShowResults(false), 200)}
+                                            aria-label="Search input"
                                         />
                                         <Button
                                             className={styles.searchBtn}
                                             icon={<FaSearch />}
                                             onClick={handleSearch}
                                             type="primary"
+                                            aria-label="Search button"
                                         />
                                     </div>
-                                    {showResults && (searchResults.length > 0 || isSearching) && (
-                                        <div className={styles.resultsDropdown}>
+                                    {showResults && (
+                                        <div
+                                            className={styles.resultsDropdown}
+                                            role="listbox"
+                                            aria-label="Search results"
+                                        >
                                             {isSearching ? (
                                                 <div className={styles.loadingContainer}>
                                                     <Spin size="small" />
@@ -208,8 +233,10 @@ const MainHeader = () => {
                                                         <div
                                                             className={styles.viewAllResults}
                                                             onClick={handleSearch}
+                                                            role="button"
+                                                            tabIndex={0}
                                                         >
-                                                            Ver todos os resultados
+                                                            View all results
                                                         </div>
                                                     )}
                                                 </>
@@ -220,37 +247,39 @@ const MainHeader = () => {
                             </form>
                         </div>
                     </Col>
-                    <Col span={8}>
+                    <Col xs={24} sm={24} md={8} lg={8}>
                         <div className={styles.headerCtn}>
                             <div className={styles.wishlistContainer}>
-                                <a 
-                                    href="/wishlist" 
+                                <a
+                                    href="/wishlist"
                                     className={styles.wishlist}
                                     onClick={handleWishlistClick}
+                                    aria-label={`Wishlist (${wishlistItems.length} items)`}
                                 >
                                     <FaHeart />
-                                    <span>Lista de Desejos</span>
+                                    <span>Wishlist</span>
                                     <div className={styles.qty}>{wishlistItems.length}</div>
                                 </a>
                                 {showWishlist && (
-                                    <WishlistDropdown 
+                                    <WishlistDropdown
                                         onClose={handleWishlistClose}
                                         items={wishlistItems}
                                     />
                                 )}
                             </div>
                             <div className={styles.cartContainer}>
-                                <a 
-                                    href="/cart" 
+                                <a
+                                    href="/cart"
                                     className={styles.cartLink}
                                     onClick={handleCartClick}
+                                    aria-label={`Shopping cart (${cartItems.length} items)`}
                                 >
                                     <FaShoppingCart />
-                                    <span>Seu Carrinho</span>
+                                    <span>Your Cart</span>
                                     <div className={styles.qty}>{cartItems.length}</div>
                                 </a>
                                 {showCart && (
-                                    <CartDropdown 
+                                    <CartDropdown
                                         onClose={handleCartClose}
                                     />
                                 )}

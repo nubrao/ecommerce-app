@@ -1,50 +1,60 @@
 'use client';
 
 import React from 'react';
-import { Card, Button, Typography, Space } from 'antd';
+import { Card, Button, Typography, Space, Divider } from 'antd';
+import { FaGithub, FaGoogle } from 'react-icons/fa';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { FaUser, FaUserPlus } from 'react-icons/fa';
 import styles from './page.module.css';
 
 const { Title, Text } = Typography;
 
-const CheckoutAuth = () => {
+const SignInPage = () => {
     const router = useRouter();
 
-    const handleGuestCheckout = () => {
-        router.push('/checkout');
+    const handleSocialLogin = (provider) => {
+        signIn(provider, { callbackUrl: '/checkout' });
     };
 
-    const handleLogin = () => {
-        // Implementar depois
-        router.push('/login?redirect=/checkout');
+    const handleContinueAsGuest = () => {
+        router.push('/checkout');
     };
 
     return (
         <div className={styles.authContainer}>
             <Card className={styles.authCard}>
                 <Title level={2} className={styles.title}>
-                    Como deseja continuar?
+                    Finalizar Compra
                 </Title>
                 <Text className={styles.subtitle}>
-                    Escolha como deseja prosseguir com sua compra
+                    Escolha como deseja prosseguir
                 </Text>
-                
+
                 <Space direction="vertical" size="large" className={styles.buttonContainer}>
-                    <Button 
-                        type="primary" 
-                        size="large" 
-                        icon={<FaUser />}
-                        onClick={handleLogin}
+                    <Button
+                        icon={<FaGithub />}
+                        onClick={() => handleSocialLogin('github')}
+                        size="large"
                         block
                     >
-                        Entrar com minha conta
+                        Continuar com GitHub
                     </Button>
-                    
-                    <Button 
-                        size="large" 
-                        icon={<FaUserPlus />}
-                        onClick={handleGuestCheckout}
+
+                    <Button
+                        icon={<FaGoogle />}
+                        onClick={() => handleSocialLogin('google')}
+                        size="large"
+                        block
+                    >
+                        Continuar com Google
+                    </Button>
+
+                    <Divider>ou</Divider>
+
+                    <Button
+                        onClick={handleContinueAsGuest}
+                        size="large"
+                        type="link"
                         block
                     >
                         Continuar como visitante
@@ -55,4 +65,4 @@ const CheckoutAuth = () => {
     );
 };
 
-export default CheckoutAuth;
+export default SignInPage;

@@ -1,12 +1,12 @@
 .filters {
     padding: 20px;
-    background: #FFF;
-    border: 1px solid #E4E7ED;
+    background: #fff;
     border-radius: 4px;
+    border: 1px solid #f0f0f0;
 }
 
 .filterSection {
-    margin-bottom: 30px;
+    margin-bottom: 24px;
 }
 
 .filterSection:last-child {
@@ -14,17 +14,41 @@
 }
 
 .categoryItem {
-    margin: 10px 0;
+    margin: 8px 0;
 }
 
-.categoryItem small {
-    color: #8D99AE;
-    margin-left: 5px;
+.count {
+    margin-left: 8px;
+    color: #8c8c8c;
 }
 
 .priceInputs {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    margin-top: 10px;
-    color: #2B2D42;
+    margin-top: 16px;
+    color: #262626;
+}
+
+.separator {
+    color: #8c8c8c;
+    margin: 0 8px;
+}
+
+.filters :global(.ant-checkbox-wrapper) {
+    align-items: flex-start;
+}
+
+.filters :global(.ant-slider) {
+    margin: 8px 0 24px;
+}
+
+.filters :global(.ant-typography) {
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .filters {
+        margin-bottom: 24px;
+    }
 }

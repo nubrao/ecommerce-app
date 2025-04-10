@@ -27,6 +27,15 @@
     width: 100%;
 }
 
+.buttonContainer :global(.ant-btn) {
+    height: 45px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
 .buttonContainer :global(.ant-btn-primary) {
     background: #D10024;
     border-color: #D10024;

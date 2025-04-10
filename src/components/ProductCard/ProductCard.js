@@ -1,39 +1,104 @@
+'use client';
+
 import React from 'react';
-import { Button, Tooltip } from 'antd';
-import { HeartOutlined, ExchangeOutlined, EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { Button, Tooltip, Typography } from 'antd';
+import {
+    HeartOutlined,
+    ExchangeOutlined,
+    EyeOutlined,
+    ShoppingCartOutlined,
+    StarFilled
+} from '@ant-design/icons';
 import Link from 'next/link';
 import styles from './ProductCard.module.css';
 
+const { Text, Title } = Typography;
+
 const ProductCard = ({ product }) => {
+    const renderStars = (rating) => {
+        return [...Array(5)].map((_, index) => (
+            <StarFilled
+                key={index}
+                className={index < Math.floor(rating) ? styles.starActive : styles.star}
+                aria-hidden="true"
+            />
+        ));
+    };
+
     return (
-        <div className={`${styles.product} ${styles.slickSlide}`}>
+        <article
+            className={`${styles.product} ${styles.slickSlide}`}
+            aria-labelledby={`product-title-${product.id}`}
+        >
             <div className={styles.productImg}>
-                <img src={product.image} alt={product.title} />
+                <img
+                    src={product.image}
+                    alt={product.title}
+                    loading="lazy"
+                    width={200}
+                    height={200}
+                />
                 {product.discount && (
-                    <div className={styles.productLabel}>
+                    <div
+                        className={styles.productLabel}
+                        role="text"
+                        aria-label={`${product.discount}% off`}
+                    >
                         <span className={styles.sale}>-{product.discount}%</span>
                     </div>
                 )}
             </div>
             <div className={styles.productBody}>
-                <p className={styles.productCategory}>{product.category}</p>
-                <h3 className={styles.productName}>
-                    <Link href={`/product/${product.id}`}>
-                        <a>{product.title}</a>
+                <Text className={styles.productCategory}>
+                    {product.category}
+                </Text>
+                <Title
+                    level={3}
+                    className={styles.productName}
+                    id={`product-title-${product.id}`}
+                >
+                    <Link
+                        href={`/product/${product.id}`}
+                        aria-label={`View details of ${product.title}`}
+                    >
+                        {product.title}
                     </Link>
-                </h3>
-                <h4 className={styles.productPrice}>
-                    ${product.price} <del className={styles.productOldPrice}>${product.oldPrice}</del>
-                </h4>
-                <div className={styles.productRating}>
+                </Title>
+                <div className={styles.priceContainer}>
+                    <Text strong className={styles.productPrice}>
+                        ${product.price.toFixed(2)}
+                    </Text>
+                    {product.oldPrice && (
+                        <Text delete className={styles.productOldPrice}>
+                            ${product.oldPrice.toFixed(2)}
+                        </Text>
+                    )}
                 </div>
-                <div className={styles.productBtns}>
+                {product.rating && (
+                    <div
+                        className={styles.productRating}
+                        aria-label={`Product rating: ${product.rating} out of 5 stars`}
+                    >
+                        {renderStars(product.rating)}
+                        {product.reviewCount && (
+                            <Text className={styles.reviewCount}>
+                                ({product.reviewCount})
+                            </Text>
+                        )}
+                    </div>
+                )}
+                <div
+                    className={styles.productBtns}
+                    role="group"
+                    aria-label="Product actions"
+                >
                     <Tooltip title="Add to wishlist">
                         <Button
                             icon={<HeartOutlined />}
                             className={styles.addToWishlist}
                             shape="circle"
                             size="large"
+                            aria-label="Add to wishlist"
                         />
                     </Tooltip>
                     <Tooltip title="Add to compare">
@@ -42,6 +107,7 @@ const ProductCard = ({ product }) => {
                             className={styles.addToCompare}
                             shape="circle"
                             size="large"
+                            aria-label="Add to compare list"
                         />
                     </Tooltip>
                     <Tooltip title="Quick view">
@@ -50,16 +116,23 @@ const ProductCard = ({ product }) => {
                             className={styles.quickView}
                             shape="circle"
                             size="large"
+                            aria-label="Quick view product details"
                         />
                     </Tooltip>
                 </div>
             </div>
             <div className={styles.addToCart}>
-                <Button type="primary" icon={<ShoppingCartOutlined />} size="large">
+                <Button
+                    type="primary"
+                    icon={<ShoppingCartOutlined />}
+                    size="large"
+                    className={styles.addToCartBtn}
+                    aria-label={`Add ${product.title} to cart`}
+                >
                     Add to cart
                 </Button>
             </div>
-        </div>
+        </article>
     );
 };
 

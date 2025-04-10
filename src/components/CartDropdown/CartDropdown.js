@@ -1,11 +1,13 @@
 'use client';
 
 import React from 'react';
-import { Empty, Button } from 'antd';
+import { Button, Typography, Empty } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
-import { FaTrash, FaArrowRight } from 'react-icons/fa';
+import { DeleteOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import styles from './CartDropdown.module.css';
+
+const { Title, Text } = Typography;
 
 const CartDropdown = ({ onClose }) => {
     const router = useRouter();
@@ -19,6 +21,7 @@ const CartDropdown = ({ onClose }) => {
     const handleRemove = (e, productId) => {
         e.stopPropagation();
         removeFromCart(productId);
+        e.currentTarget.blur();
     };
 
     const handleItemClick = (productId) => {
@@ -31,51 +34,87 @@ const CartDropdown = ({ onClose }) => {
     };
 
     return (
-        <div className={styles.cartDropdown}>
+        <div 
+            className={styles.cartDropdown}
+            role="dialog"
+            aria-label="Shopping cart"
+        >
             {cartItems.length === 0 ? (
                 <Empty
-                    description="Seu carrinho está vazio"
+                    description="Your cart is empty"
                     className={styles.emptyState}
+                    image={Empty.PRESENTED_IMAGE_SIMPLE}
                 />
             ) : (
                 <>
-                    <div className={styles.itemsList}>
+                    <div 
+                        className={styles.itemsList}
+                        role="list"
+                        aria-label="Cart items"
+                    >
                         {cartItems.map(item => (
-                            <div 
-                                key={item.id} 
+                            <div
+                                key={item.id}
                                 className={styles.cartItem}
                                 onClick={() => handleItemClick(item.id)}
+                                role="listitem"
+                                tabIndex={0}
+                                onKeyPress={(e) => {
+                                    if (e.key === 'Enter') {
+                                        handleItemClick(item.id);
+                                    }
+                                }}
                             >
                                 <div className={styles.imageContainer}>
-                                    <img src={item.image} alt={item.title} />
+                                    <img
+                                        src={item.image}
+                                        alt={item.title}
+                                        width={50}
+                                        height={50}
+                                        loading="lazy"
+                                    />
                                 </div>
                                 <div className={styles.itemInfo}>
-                                    <h4>{item.title}</h4>
-                                    <p>${Number(item.price).toFixed(2)}</p>
+                                    <Title 
+                                        level={5}
+                                        className={styles.itemTitle}
+                                        ellipsis={{ rows: 2 }}
+                                    >
+                                        {item.title}
+                                    </Title>
+                                    <Text type="secondary">
+                                        ${Number(item.price).toFixed(2)}
+                                    </Text>
                                 </div>
                                 <Button
                                     type="text"
-                                    icon={<FaTrash />}
+                                    icon={<DeleteOutlined />}
                                     onClick={(e) => handleRemove(e, item.id)}
                                     className={styles.removeBtn}
+                                    aria-label={`Remove ${item.title} from cart`}
                                 />
                             </div>
                         ))}
                     </div>
-                    <div className={styles.cartSummary}>
+                    <div 
+                        className={styles.cartSummary}
+                        aria-label="Cart summary"
+                    >
                         <div className={styles.cartTotal}>
-                            <span>Total:</span>
-                            <strong>${calculateTotal().toFixed(2)}</strong>
+                            <Text strong>Total:</Text>
+                            <Text strong>${calculateTotal().toFixed(2)}</Text>
                         </div>
                     </div>
                     <Button
                         type="primary"
-                        icon={<FaArrowRight />}
+                        icon={<ArrowRightOutlined />}
                         onClick={handleCheckout}
                         className={styles.checkoutButton}
                         block
+                        size="large"
+                        aria-label="Proceed to checkout"
                     >
-                        Finalizar Compra
+                        Checkout
                     </Button>
                 </>
             )}

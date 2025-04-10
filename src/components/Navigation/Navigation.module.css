@@ -3,6 +3,8 @@
     border-bottom: 2px solid #E4E7ED;
     border-top: 3px solid #D10024;
     padding: 20px 0;
+    position: relative;
+    z-index: 10;
 }
 
 .header-ctn {
@@ -62,6 +64,41 @@
     transform: translateY(0);
 }
 
+.menu {
+    border: none;
+    width: 100%;
+    line-height: 1.5;
+}
+
+.menuItem {
+    padding: 0;
+    margin: 0;
+    height: auto !important;
+}
+
+.menuLink {
+    display: block;
+    padding: 20px 16px;
+    color: #2B2D42;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.menuLink:hover,
+.menuLink:focus {
+    color: #D10024;
+}
+
+.menuItem:global(.ant-menu-item-selected) .menuLink {
+    color: #D10024;
+}
+
+.menuItem:global(.ant-menu-item)::after {
+    border-bottom: 2px solid #D10024 !important;
+}
+
 @media only screen and (max-width: 991px) {
     .responsive-nav {
         position: fixed;
@@ -86,11 +123,57 @@
     .menu-toggle {
         display: inline-block;
     }
+
+    .menu {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .menu::-webkit-scrollbar {
+        display: none;
+    }
+
+    .menuLink {
+        padding: 15px 12px;
+        white-space: nowrap;
+        font-size: 13px;
+    }
 }
 
 @media (max-width: 768px) {
     .categoryButton {
         padding: 8px 20px;
         font-size: 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    .menuLink {
+        padding: 12px 10px;
+        font-size: 12px;
+    }
+
+    .container {
+        padding: 0 10px;
+    }
+}
+
+@media (forced-colors: active) {
+    .menuLink {
+        forced-color-adjust: none;
+    }
+
+    .menuItem:global(.ant-menu-item-selected) .menuLink {
+        color: Highlight;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .menuLink {
+        transition: none;
     }
 }

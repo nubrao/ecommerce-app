@@ -1,24 +1,102 @@
 .breadcrumbSection {
-    padding: 30px 0;
+    padding: 20px 0;
     background: #FBFBFC;
     border-bottom: 1px solid #E4E7ED;
+    margin-bottom: 30px;
+    width: 100%;
+    overflow: hidden;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 15px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .breadcrumb {
+    margin: 0;
+    font-size: 12px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumbLink,
+.homeLink {
+    color: #8D99AE;
+    transition: color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.breadcrumbLink:hover,
+.homeLink:hover {
+    color: #D10024;
+}
+
+.homeIcon {
+    font-size: 16px;
+}
+
+.breadcrumbText {
+    color: inherit;
     font-size: 12px;
 }
 
-.breadcrumb :global(.ant-breadcrumb-link) a {
-    color: #8D99AE;
-    text-transform: uppercase;
+.currentPage {
+    color: #2B2D42;
+    font-weight: 500;
 }
 
-.breadcrumb :global(.ant-breadcrumb-link) a:hover {
-    color: #D10024;
+.breadcrumb :global(.ant-breadcrumb-link) {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.breadcrumb :global(.ant-breadcrumb-separator) {
+    margin: 0 8px;
+    color: #8D99AE;
+}
+
+@media (max-width: 768px) {
+    .breadcrumbSection {
+        padding: 15px 0;
+        margin-bottom: 20px;
+    }
+
+    .container {
+        padding: 0 10px;
+    }
+
+    .homeLink .breadcrumbText {
+        display: none;
+    }
+
+    .breadcrumb :global(.ant-breadcrumb-separator) {
+        margin: 0 5px;
+    }
+}
+
+.container::-webkit-scrollbar {
+    display: none;
+}
+
+.container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+@media (forced-colors: active) {
+    .breadcrumbLink,
+    .homeLink {
+        color: LinkText;
+    }
+
+    .currentPage {
+        color: ButtonText;
+    }
 }

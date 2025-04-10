@@ -3,104 +3,184 @@
     top: 100%;
     right: 0;
     width: 320px;
-    background: white;
-    border: 1px solid #E4E7ED;
+    max-width: calc(100vw - 32px);
+    background: #fff;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     z-index: 1000;
-    margin-top: 10px;
+    padding: 16px;
 }
 
 .itemsList {
-    max-height: 400px;
+    max-height: min(400px, 60vh);
     overflow-y: auto;
-    margin-bottom: 15px;
+    margin-bottom: 16px;
+    -webkit-overflow-scrolling: touch;
 }
 
 .cartItem {
     display: flex;
     align-items: center;
-    padding: 15px;
-    border-bottom: 1px solid #E4E7ED;
+    padding: 8px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.2s;
+    gap: 12px;
 }
 
 .cartItem:hover {
-    background-color: #f9f9f9;
+    background-color: #f5f5f5;
+}
+
+.cartItem:focus {
+    outline: 2px solid #1890ff;
+    outline-offset: 2px;
 }
 
 .imageContainer {
-    width: 60px;
-    height: 60px;
     flex-shrink: 0;
-    margin-right: 15px;
+    width: 50px;
+    height: 50px;
 }
 
 .imageContainer img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    border-radius: 4px;
 }
 
 .itemInfo {
     flex: 1;
     min-width: 0;
+    padding-right: 8px;
 }
 
-.itemInfo h4 {
-    margin: 0;
-    font-size: 14px;
-    color: #2B2D42;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.itemInfo p {
-    margin: 5px 0 0;
-    color: #D10024;
-    font-weight: 600;
+.itemTitle {
+    margin: 0 0 4px !important;
+    font-size: 14px !important;
+    line-height: 1.2 !important;
 }
 
 .removeBtn {
-    color: #8D99AE;
-    margin-left: 10px;
+    padding: 4px 8px;
+    color: #ff4d4f;
+    opacity: 0.8;
+    transition: all 0.2s;
 }
 
 .removeBtn:hover {
-    color: #D10024;
+    opacity: 1;
+    color: #ff4d4f !important;
+    background: rgba(255, 77, 79, 0.1);
 }
 
 .cartSummary {
-    padding: 15px;
-    border-top: 1px solid #E4E7ED;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 16px;
+    margin-bottom: 16px;
 }
 
 .cartTotal {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 16px;
-    margin-bottom: 15px;
-}
-
-.cartTotal strong {
-    color: #D10024;
-    font-size: 18px;
+    margin-bottom: 16px;
 }
 
 .checkoutButton {
-    margin: 0 15px 15px;
-    background: #D10024 !important;
-    border-color: #D10024 !important;
-    width: calc(100% - 30px) !important;
+    background: #D10024;
+    border-color: #D10024;
+    height: 40px;
+    font-weight: 600;
 }
 
-.checkoutButton:hover {
-    opacity: 0.9;
+.checkoutButton:hover,
+.checkoutButton:focus {
+    background: #ff1a1a;
+    border-color: #ff1a1a;
 }
 
 .emptyState {
-    padding: 30px 15px;
+    padding: 24px 0;
+}
+
+@media (max-width: 576px) {
+    .cartDropdown {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 16px 16px 0 0;
+        padding: 16px;
+        animation: slideUp 0.3s ease-out;
+    }
+
+    .itemsList {
+        max-height: 50vh;
+    }
+
+    .cartItem {
+        padding: 12px 8px;
+    }
+
+    .itemTitle {
+        font-size: 13px !important;
+    }
+
+    .checkoutButton {
+        height: 48px;
+    }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+    .cartDropdown {
+        width: 360px;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cartDropdown {
+        animation: none;
+    }
+}
+
+@media (forced-colors: active) {
+    .cartItem:focus {
+        outline: 2px solid ButtonText;
+    }
+
+    .removeBtn {
+        border: 1px solid ButtonText;
+    }
+}
+
+.itemsList::-webkit-scrollbar {
+    width: 6px;
+}
+
+.itemsList::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.itemsList::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.itemsList::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

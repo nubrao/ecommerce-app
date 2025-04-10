@@ -1,26 +1,55 @@
 'use client';
 
 import React from 'react';
-import { Breadcrumb as AntBreadcrumb } from 'antd';
+import { Breadcrumb as AntBreadcrumb, Typography } from 'antd';
 import Link from 'next/link';
+import { HomeOutlined } from '@ant-design/icons';
 import styles from './Breadcrumb.module.css';
 
-const Breadcrumb = ({ items }) => {
+const { Text } = Typography;
+
+const Breadcrumb = ({ items = [] }) => {
+    const truncateText = (text, maxLength = 20) => {
+        return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+    };
+
     return (
-        <div className={styles.breadcrumbSection}>
+        <nav className={styles.breadcrumbSection} aria-label="Breadcrumb navigation">
             <div className={styles.container}>
                 <AntBreadcrumb
                     className={styles.breadcrumb}
-                    items={items.map((item, index) => ({
-                        title: index === items.length - 1 ? (
-                            <span>{item.title}</span>
-                        ) : (
-                            <Link href={item.href}>{item.title}</Link>
-                        ),
-                    }))}
+                    separator=">"
+                    items={[
+                        {
+                            title: (
+                                <Link href="/" className={styles.homeLink} aria-label="Home page">
+                                    <HomeOutlined className={styles.homeIcon} />
+                                    <Text className={styles.breadcrumbText}>Home</Text>
+                                </Link>
+                            ),
+                        },
+                        ...items.map((item, index) => ({
+                            title: item.href ? (
+                                <Link
+                                    href={item.href}
+                                    className={styles.breadcrumbLink}
+                                    aria-label={item.title}
+                                >
+                                    <Text className={styles.breadcrumbText}>
+                                        {truncateText(item.title)}
+                                    </Text>
+                                </Link>
+                            ) : (
+                                <Text className={styles.currentPage}>
+                                    {truncateText(item.title)}
+                                </Text>
+                            ),
+                            className: index === items.length - 1 ? styles.lastItem : ''
+                        })),
+                    ]}
                 />
             </div>
-        </div>
+        </nav>
     );
 };
 
