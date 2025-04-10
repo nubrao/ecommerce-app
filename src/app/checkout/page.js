@@ -138,23 +138,17 @@ const CheckoutPage = () => {
         try {
             setIsProcessing(true);
 
-            // Show loading message
             const loadingMessage = message.loading('Processing your order...', 0);
 
-            // Simulate processing delay
             await new Promise(resolve => setTimeout(resolve, 2000));
 
-            // Clear cart
             clearCart();
             localStorage.removeItem('cart');
 
-            // Close loading message
             loadingMessage();
 
-            // Show success message
             message.success('Order placed successfully! Thank you for your purchase.');
 
-            // Redirect to account page after a short delay
             setTimeout(() => {
                 router.push('/account');
             }, 1000);

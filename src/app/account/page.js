@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Tabs, Card, Typography, Button, Descriptions, Empty, Table, Tag, Row, Col } from 'antd';
+import { Tabs, Card, Typography, Button, Descriptions, Empty, Table, Tag, Row, Col, App } from 'antd';
 import {
     UserOutlined,
     ShoppingOutlined,
@@ -13,17 +13,40 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { useCart } from '@/contexts/CartContext';
 import Orders from '@/components/Orders/Orders';
-import ProductCard from '@/components/ProductCard/ProductCard';
 import ProductGrid from '@/components/ProductGrid/ProductGrid';
+import LoadingScreen from '@/components/LoadingScreen/LoadingScreen';
 import styles from './Account.module.css';
+import { validateAuth } from '@/utils/auth';
 
 const { Title, Text } = Typography;
 
 const AccountPage = () => {
     const router = useRouter();
+    const { message } = App.useApp();
     const { user, logout } = useAuth();
     const { wishlistItems } = useWishlist();
     const { cartItems } = useCart();
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const checkAuth = () => {
+            const auth = validateAuth();
+
+            if (!auth.isValid && !user) {
+                message.error('Please login to access your account');
+                router.replace('/login');
+                return;
+            }
+
+            setIsLoading(false);
+        };
+
+        checkAuth();
+    }, [router, message]);
+
+    if (isLoading) {
+        return <LoadingScreen />;
+    }
 
     const handleLogout = () => {
         logout();

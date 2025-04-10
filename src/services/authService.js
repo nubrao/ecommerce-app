@@ -19,35 +19,59 @@ export const authService = {
             }
 
             const data = await response.json();
-            
-            if (data.token) {
-                localStorage.setItem('auth-token', data.token);
-                localStorage.setItem('user-info', JSON.stringify(data.user));
-            }
 
-            const usersResponse = await fetch(`${API_URL}/users`);
-            const users = await usersResponse.json();
-            const userData = users.find(u => u.username === username);
-            const token = localStorage.getItem('auth-token');
+            localStorage.setItem('auth-token', data.token);
 
-            if (!userData) {
-                throw new Error('User not found');
-            }
+            const userResponse = await fetch(`${API_URL}/users/1`);
+            const userData = await userResponse.json();
 
-            return { token, userData };
+            console.log(userData);
+
+            localStorage.setItem('user-info', JSON.stringify({
+                id: userData.id,
+                email: userData.email,
+                username: userData.username,
+                name: userData.name,
+                timestamp: Date.now()
+            }));
+
+            return {
+                token: data.token,
+                user: userData
+            };
         } catch (error) {
             console.error('Login error:', error);
             throw error;
         }
     },
-    
+
     logout: () => {
         localStorage.removeItem('auth-token');
         localStorage.removeItem('user-info');
+        localStorage.removeItem('checkout-data');
     },
 
     isAuthenticated: () => {
-        return !!localStorage.getItem('auth-token');
+        const token = localStorage.getItem('auth-token');
+        const userInfo = localStorage.getItem('user-info');
+
+        if (!token || !userInfo) {
+            return false;
+        }
+
+        try {
+            const userData = JSON.parse(userInfo);
+            const isExpired = Date.now() - userData.timestamp > 24 * 60 * 60 * 1000;
+
+            if (isExpired) {
+                authService.logout();
+                return false;
+            }
+
+            return true;
+        } catch {
+            return false;
+        }
     },
 
     getToken: () => {

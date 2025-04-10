@@ -1,21 +1,57 @@
 'use client';
 
 import React from 'react';
-import { Button, Typography, Empty, InputNumber } from 'antd';
+import { Button, Typography, Empty, InputNumber, App } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
 import { DeleteOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { authService } from '@/services/authService';
 import styles from './CartDropdown.module.css';
 
 const { Title, Text } = Typography;
 
 const CartDropdown = ({ onClose }) => {
     const router = useRouter();
-    const { cartItems, removeFromCart, updateQuantity } = useCart();
+    const { message } = App.useApp();
+    const { cartItems, removeFromCart, updateQuantity, total } = useCart();
 
-    const handleCheckout = () => {
-        router.push('/checkout');
+    const handleCheckout = (e) => {
+        e.preventDefault();
+
+        const authToken = localStorage.getItem('auth-token');
+        const authData = localStorage.getItem('auth-data');
+
+        if (!authToken || !authData) {
+            message.error('Please login to proceed with checkout');
+
+            localStorage.setItem('redirect-after-login', '/checkout');
+
+            onClose();
+            router.push('/login');
+            return;
+        }
+
+        const checkoutData = {
+            cartItems: cartItems.map(item => ({
+                id: item.id,
+                title: item.title,
+                price: Number(item.price),
+                quantity: Number(item.quantity || 1),
+                image: item.image,
+                description: item.description || '',
+                category: item.category || ''
+            })),
+            total: cartItems.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0),
+            timestamp: Date.now(),
+            authToken,
+            authData
+        };
+
+        localStorage.setItem('checkout-data', JSON.stringify(checkoutData));
+
         onClose();
+
+        window.location.replace(process.env.NEXT_PUBLIC_CHECKOUT_APP_URL);
     };
 
     const handleRemove = (e, productId) => {
@@ -130,6 +166,7 @@ const CartDropdown = ({ onClose }) => {
                         block
                         size="large"
                         aria-label="Proceed to checkout"
+                        disabled={!cartItems.length}
                     >
                         Checkout
                     </Button>

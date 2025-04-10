@@ -6,6 +6,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import LoadingScreen from '@/components/LoadingScreen/LoadingScreen';
+import { validateAuth } from '@/utils/auth';
 import styles from './Login.module.css';
 
 const { Title, Text } = Typography;
@@ -18,32 +19,41 @@ const LoginPage = () => {
     const [pageLoading, setPageLoading] = useState(true);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setPageLoading(false);
-        }, 1000);
+        const checkAuth = () => {
+            const auth = validateAuth();
+            if (auth.isValid && user) {
+                const redirectUrl = localStorage.getItem('redirect-after-login');
+                if (redirectUrl) {
+                    localStorage.removeItem('redirect-after-login');
+                    router.push(redirectUrl);
+                } else {
+                    router.push('/account');
+                }
+            } else {
+                setPageLoading(false);
+            }
+        };
 
-        return () => clearTimeout(timer);
-    }, []);
-
-    useEffect(() => {
-        if (user) {
-            router.push('/account');
-        }
+        checkAuth();
     }, [user, router]);
 
     const handleSubmit = async (values) => {
         try {
             setLoading(true);
-            await login(values.username, values.password);
-            message.success('Welcome back! Login successful.');
+            const userData = await login(values.username, values.password);
 
-            const token = localStorage.getItem('auth-token');
-            if (!token) {
-                throw new Error('No token received');
+            if (userData) {
+                message.success('Welcome back! Login successful.');
+                const redirectUrl = localStorage.getItem('redirect-after-login');
+                if (redirectUrl) {
+                    localStorage.removeItem('redirect-after-login');
+                    router.push(redirectUrl);
+                } else {
+                    router.push('/account');
+                }
             }
-            
-            router.push('/');
         } catch (error) {
+            console.error('Login error:', error);
             message.error('Login failed. Please check your username and password.');
         } finally {
             setLoading(false);
