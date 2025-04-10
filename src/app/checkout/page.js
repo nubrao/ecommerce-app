@@ -138,27 +138,11 @@ const CheckoutPage = () => {
         try {
             setIsProcessing(true);
 
-            // Prepare order data
-            const orderData = {
-                userId: user.id,
-                products: cartItems.map(item => ({
-                    id: item.id,
-                    title: item.title,
-                    price: parseFloat(item.price),
-                    description: item.description || '',
-                    category: item.category || '',
-                    image: item.image || ''
-                }))
-            };
-
             // Show loading message
             const loadingMessage = message.loading('Processing your order...', 0);
 
             // Simulate processing delay
             await new Promise(resolve => setTimeout(resolve, 2000));
-
-            // Make API call
-            await ProductService.submitCart(orderData);
 
             // Clear cart
             clearCart();
@@ -168,12 +152,15 @@ const CheckoutPage = () => {
             loadingMessage();
 
             // Show success message
-            message.success('Order placed successfully!');
+            message.success('Order placed successfully! Thank you for your purchase.');
 
-            // Redirect to account page
-            router.push('/account');
+            // Redirect to account page after a short delay
+            setTimeout(() => {
+                router.push('/account');
+            }, 1000);
+
         } catch (error) {
-            console.error('Error submitting order:', error);
+            console.error('Error processing order:', error);
             message.error('Failed to place order. Please try again.');
         } finally {
             setIsProcessing(false);
