@@ -12,6 +12,15 @@
     backdrop-filter: blur(5px);
 }
 
+.loadingContainer {
+    width: 100%;
+    min-height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+}
+
 .loadingWrapper {
     text-align: center;
     padding: 20px;
@@ -25,6 +34,19 @@
     margin-top: 16px;
     font-size: 16px;
     color: #2B2D42;
+}
+
+.loadingContent {
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loadingText {
+    margin-top: 16px;
+    color: #8D99AE;
+    font-size: 14px;
 }
 
 @media (max-width: 768px) {
@@ -45,11 +67,21 @@
     .loadingWrapper :global(.anticon) {
         forced-color-adjust: none;
     }
+
+    .loadingContent {
+        forced-color-adjust: none;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .loadingWrapper :global(.anticon) {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
+    }
+
+    .loadingContent * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 }

@@ -1,138 +1,143 @@
 'use client';
 
 import React from 'react';
-import { Button, Tooltip, Typography } from 'antd';
+import { Card, Button, Rate, Tooltip, Typography } from 'antd';
 import {
-    HeartOutlined,
-    ExchangeOutlined,
-    EyeOutlined,
     ShoppingCartOutlined,
-    StarFilled
+    HeartOutlined,
+    HeartFilled,
+    SwapOutlined,
+    EyeOutlined
 } from '@ant-design/icons';
 import Link from 'next/link';
+import Image from 'next/image';
+import { useCart } from '@/contexts/CartContext';
+import { useWishlist } from '@/contexts/WishlistContext';
 import styles from './ProductCard.module.css';
 
 const { Text, Title } = Typography;
 
-const ProductCard = ({ product }) => {
-    const renderStars = (rating) => {
-        return [...Array(5)].map((_, index) => (
-            <StarFilled
-                key={index}
-                className={index < Math.floor(rating) ? styles.starActive : styles.star}
-                aria-hidden="true"
-            />
-        ));
+const ProductCard = ({ product, className }) => {
+    const { addToCart, isInCart } = useCart();
+    const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+
+    const handleAddToCart = (e) => {
+        e.preventDefault();
+        addToCart(product);
+    };
+
+    const handleWishlistToggle = (e) => {
+        e.preventDefault();
+        if (isInWishlist(product.id)) {
+            removeFromWishlist(product.id);
+        } else {
+            addToWishlist(product);
+        }
     };
 
     return (
-        <article
-            className={`${styles.product} ${styles.slickSlide}`}
-            aria-labelledby={`product-title-${product.id}`}
-        >
-            <div className={styles.productImg}>
-                <img
-                    src={product.image}
-                    alt={product.title}
-                    loading="lazy"
-                    width={200}
-                    height={200}
-                />
-                {product.discount && (
-                    <div
-                        className={styles.productLabel}
-                        role="text"
-                        aria-label={`${product.discount}% off`}
-                    >
-                        <span className={styles.sale}>-{product.discount}%</span>
-                    </div>
-                )}
-            </div>
-            <div className={styles.productBody}>
-                <Text className={styles.productCategory}>
-                    {product.category}
-                </Text>
-                <Title
-                    level={3}
-                    className={styles.productName}
-                    id={`product-title-${product.id}`}
+        <Card
+            className={`${styles.productCard} ${className || ''}`}
+            cover={
+                <Link
+                    href={`/product/${product.id}`}
+                    className={styles.imageContainer}
                 >
-                    <Link
-                        href={`/product/${product.id}`}
-                        aria-label={`View details of ${product.title}`}
-                    >
+                    <Image
+                        src={product.image}
+                        alt={product.title}
+                        width={300}
+                        height={300}
+                        className={styles.productImage}
+                        priority={false}
+                    />
+                    {product.discount > 0 && (
+                        <span className={styles.discountBadge}>
+                            -{product.discount}%
+                        </span>
+                    )}
+                    {product.isNew && (
+                        <span className={styles.newBadge}>
+                            NEW
+                        </span>
+                    )}
+                </Link>
+            }
+        >
+            <div className={styles.productContent}>
+                <Link
+                    href={`/product/${product.id}`}
+                    className={styles.productTitle}
+                >
+                    <Title level={5} ellipsis={{ rows: 2 }}>
                         {product.title}
-                    </Link>
-                </Title>
+                    </Title>
+                </Link>
+
+                <div className={styles.ratingContainer}>
+                    <Rate
+                        disabled
+                        defaultValue={product.rating?.rate || 0}
+                        allowHalf
+                    />
+                    <Text type="secondary">({product.rating?.count || 0})</Text>
+                </div>
+
                 <div className={styles.priceContainer}>
-                    <Text strong className={styles.productPrice}>
-                        ${product.price.toFixed(2)}
+                    <Text strong className={styles.price}>
+                        ${Number(product.price).toFixed(2)}
                     </Text>
                     {product.oldPrice && (
-                        <Text delete className={styles.productOldPrice}>
-                            ${product.oldPrice.toFixed(2)}
+                        <Text delete type="secondary" className={styles.oldPrice}>
+                            ${Number(product.oldPrice).toFixed(2)}
                         </Text>
                     )}
                 </div>
-                {product.rating && (
-                    <div
-                        className={styles.productRating}
-                        aria-label={`Product rating: ${product.rating} out of 5 stars`}
-                    >
-                        {renderStars(product.rating)}
-                        {product.reviewCount && (
-                            <Text className={styles.reviewCount}>
-                                ({product.reviewCount})
-                            </Text>
-                        )}
-                    </div>
-                )}
-                <div
-                    className={styles.productBtns}
-                    role="group"
-                    aria-label="Product actions"
-                >
-                    <Tooltip title="Add to wishlist">
-                        <Button
-                            icon={<HeartOutlined />}
-                            className={styles.addToWishlist}
-                            shape="circle"
-                            size="large"
-                            aria-label="Add to wishlist"
-                        />
+
+                <div className={styles.actions}>
+                    <Tooltip title="Quick view">
+                        <Link href={`/product/${product.id}`}>
+                            <Button
+                                icon={<EyeOutlined />}
+                                className={styles.quickView}
+                                shape="circle"
+                                size="large"
+                            />
+                        </Link>
                     </Tooltip>
+
                     <Tooltip title="Add to compare">
                         <Button
-                            icon={<ExchangeOutlined />}
+                            icon={<SwapOutlined />}
                             className={styles.addToCompare}
                             shape="circle"
                             size="large"
-                            aria-label="Add to compare list"
                         />
                     </Tooltip>
-                    <Tooltip title="Quick view">
+
+                    <Tooltip title={isInWishlist(product.id) ? "Remove from wishlist" : "Add to wishlist"}>
                         <Button
-                            icon={<EyeOutlined />}
-                            className={styles.quickView}
+                            icon={isInWishlist(product.id) ? <HeartFilled /> : <HeartOutlined />}
+                            className={styles.addToWishlist}
                             shape="circle"
                             size="large"
-                            aria-label="Quick view product details"
+                            onClick={handleWishlistToggle}
                         />
                     </Tooltip>
                 </div>
-            </div>
-            <div className={styles.addToCart}>
+
                 <Button
                     type="primary"
                     icon={<ShoppingCartOutlined />}
-                    size="large"
                     className={styles.addToCartBtn}
-                    aria-label={`Add ${product.title} to cart`}
+                    onClick={handleAddToCart}
+                    disabled={isInCart(product.id)}
+                    block
                 >
-                    Add to cart
+                    {isInCart(product.id) ? 'Added to Cart' : 'Add to Cart'}
                 </Button>
             </div>
-        </article>
+        </Card>
     );
 };
 

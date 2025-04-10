@@ -1,0 +1,123 @@
+.accountPage {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.accountHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.accountTabs {
+    min-height: 400px;
+}
+
+.profileSection,
+.ordersSection,
+.wishlistSection {
+    padding: 20px 0;
+}
+
+.wishlistSection {
+    padding: 24px 0;
+}
+
+.sectionTitle {
+    margin-bottom: 24px !important;
+    color: #2B2D42;
+}
+
+.wishlistGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.wishlistCard {
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.wishlistCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.emptyWishlist {
+    padding: 40px 0;
+    text-align: center;
+}
+
+.emptyWishlist :global(.ant-empty-description) {
+    font-size: 16px;
+    color: #8D99AE;
+}
+
+.emptyStateContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.emptyStateContent button {
+    margin-top: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .accountPage {
+        margin: 20px auto;
+    }
+
+    .accountHeader {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+
+    .accountTabs :global(.ant-tabs-nav) {
+        margin-bottom: 16px;
+    }
+
+    .profileSection :global(.ant-descriptions-item) {
+        padding: 12px;
+    }
+
+    .wishlistSection {
+        padding: 16px 0;
+    }
+    
+    .wishlistCard {
+        margin-bottom: 16px;
+    }
+
+    .sectionTitle {
+        margin-bottom: 16px !important;
+        font-size: 20px !important;
+    }
+}
+
+@media (forced-colors: active) {
+    .accountPage :global(.ant-card) {
+        border: 1px solid ButtonText;
+    }
+
+    .wishlistCard {
+        border: 1px solid ButtonText;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .accountPage * {
+        transition: none !important;
+    }
+
+    .wishlistCard {
+        transition: none;
+    }
+}

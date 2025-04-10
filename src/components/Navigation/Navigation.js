@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Menu } from 'antd';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 import styles from './Navigation.module.css';
 
 const Navigation = () => {
@@ -10,11 +11,26 @@ const Navigation = () => {
     const [current, setCurrent] = useState(pathname);
 
     const menuItems = [
-        { key: '/', label: <a href="/">Home</a> },
-        { key: '/electronics', label: <a href="/category/electronics">Electronics</a> },
-        { key: '/jewelery', label: <a href="/category/jewelery">Jewelry</a> },
-        { key: '/mens-clothing', label: <a href="/category/mens-clothing">Men's Clothing</a> },
-        { key: '/womens-clothing', label: <a href="/category/womens-clothing">Women's Clothing</a> }
+        {
+            key: '/',
+            label: <Link href="/">Home</Link>
+        },
+        {
+            key: '/electronics',
+            label: <Link href="/category/electronics">Electronics</Link>
+        },
+        {
+            key: '/jewelery',
+            label: <Link href="/category/jewelery">Jewelry</Link>
+        },
+        {
+            key: '/mens-clothing',
+            label: <Link href="/category/mens-clothing">Men&apos;s Clothing</Link>
+        },
+        {
+            key: '/womens-clothing',
+            label: <Link href="/category/womens-clothing">Women&apos;s Clothing</Link>
+        }
     ];
 
     const onClick = (e) => {

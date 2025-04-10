@@ -11,6 +11,8 @@ import SearchResultItem from '../SearchResultItem/SearchResultItem';
 import WishlistDropdown from '../WishlistDropdown/WishlistDropdown';
 import CartDropdown from '../CartDropdown/CartDropdown';
 import styles from './MainHeader.module.css';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const { Option } = Select;
 
@@ -163,9 +165,15 @@ const MainHeader = () => {
                     {!isMobile && (
                         <Col xs={4} sm={4} md={4} lg={4}>
                             <div className={styles.headerLogo}>
-                                <a href="/" className={styles.logo} aria-label="Go to homepage">
-                                    <img src="/logo.svg" alt="E-commerce Logo" />
-                                </a>
+                                <Link href="/" className={styles.logo} aria-label="Go to homepage">
+                                    <Image
+                                        src="/logo.svg"
+                                        alt="E-commerce Logo"
+                                        width={150}
+                                        height={50}
+                                        priority
+                                    />
+                                </Link>
                             </div>
                         </Col>
                     )}

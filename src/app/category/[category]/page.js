@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { Typography } from 'antd';
 import { ProductService } from '@/services/api';
@@ -17,13 +17,7 @@ const CategoryPage = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        if (category) {
-            fetchCategoryProducts();
-        }
-    }, [category]);
-
-    const fetchCategoryProducts = async () => {
+    const fetchCategoryProducts = useCallback(async () => {
         try {
             setLoading(true);
             const data = await ProductService.getByCategory(category);
@@ -33,7 +27,11 @@ const CategoryPage = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [category]);
+
+    useEffect(() => {
+        fetchCategoryProducts();
+    }, [fetchCategoryProducts]);
 
     if (loading) return <LoadingScreen />;
 
@@ -46,14 +44,14 @@ const CategoryPage = () => {
     return (
         <>
             <Breadcrumb items={breadcrumbItems} />
-            
+
             <div className={styles.categoryContent}>
                 <div className={styles.container}>
                     <Title level={2} className={styles.categoryTitle}>
                         {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
                     </Title>
-                    
-                    <ProductSection 
+
+                    <ProductSection
                         products={products}
                         loading={loading}
                     />
