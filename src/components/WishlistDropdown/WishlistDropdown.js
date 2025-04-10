@@ -5,9 +5,11 @@ import { Empty, Button, message } from 'antd';
 import { FaTrash, FaShoppingCart } from 'react-icons/fa';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { useCart } from '@/contexts/CartContext';
+import { useRouter } from 'next/navigation';
 import styles from './WishlistDropdown.module.css';
 
 const WishlistDropdown = ({ onClose }) => {
+    const router = useRouter();
     const { wishlistItems, removeFromWishlist } = useWishlist();
     const { addToCart, isInCart } = useCart();
 
@@ -17,11 +19,10 @@ const WishlistDropdown = ({ onClose }) => {
         message.success('Item removed from wishlist');
     };
 
-    const handleItemClick = (product) => {
-        if (!isInCart(product.id)) {
-            addToCart(product);
-            message.success('Product added to cart!');
-        }
+    const handleItemClick = (e, product) => {
+        e.preventDefault();
+        onClose();
+        router.push(`/product/${product.id}`);
     };
 
     const handleAddAllToCart = () => {
@@ -65,11 +66,11 @@ const WishlistDropdown = ({ onClose }) => {
                             <div
                                 key={item.id}
                                 className={styles.wishlistItem}
-                                onClick={() => handleItemClick(item)}
+                                onClick={(e) => handleItemClick(e, item)}
                                 role="listitem"
                                 tabIndex={0}
                                 onKeyPress={(e) => {
-                                    if (e.key === 'Enter') handleItemClick(item);
+                                    if (e.key === 'Enter') handleItemClick(e, item);
                                 }}
                             >
                                 <div className={styles.imageContainer}>

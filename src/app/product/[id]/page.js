@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { Typography, Rate, Button, Row, Col, Tag, Divider, message } from 'antd';
+import { Typography, Rate, Button, Row, Col, Tag, Divider, App } from 'antd';
 import { ShoppingCartOutlined, HeartOutlined, HeartFilled } from '@ant-design/icons';
 import { ProductService } from '@/services/api';
 import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
@@ -14,6 +14,7 @@ import styles from './Product.module.css';
 const { Title, Text, Paragraph } = Typography;
 
 const ProductDetail = () => {
+    const { message } = App.useApp();
     const params = useParams();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
