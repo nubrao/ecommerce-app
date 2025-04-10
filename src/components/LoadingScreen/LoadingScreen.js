@@ -7,7 +7,7 @@ import styles from './LoadingScreen.module.css';
 
 const LoadingScreen = () => {
     return (
-        <div 
+        <div
             className={styles.loadingContainer}
             role="progressbar"
             aria-busy="true"
@@ -15,7 +15,6 @@ const LoadingScreen = () => {
         >
             <div className={styles.loadingWrapper}>
                 <Spin
-                    spinning={true}
                     indicator={
                         <LoadingOutlined
                             style={{
@@ -25,8 +24,8 @@ const LoadingScreen = () => {
                             spin
                         />
                     }
-                >
-                </Spin>
+                />
+                <p className={styles.loadingText}>Loading...</p>
             </div>
         </div>
     );

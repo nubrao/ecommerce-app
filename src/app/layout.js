@@ -1,8 +1,10 @@
 'use client';
 
+import React, { Suspense } from 'react';
 import { Geist, Geist_Mono } from "next/font/google";
 import { App } from 'antd';
 import ClientProviders from '@/components/Providers/ClientProviders';
+import LoadingScreen from '@/components/LoadingScreen/LoadingScreen';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -21,7 +23,9 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <App>
           <ClientProviders>
-            {children}
+            <Suspense fallback={<LoadingScreen />}>
+              {children}
+            </Suspense>
           </ClientProviders>
         </App>
       </body>

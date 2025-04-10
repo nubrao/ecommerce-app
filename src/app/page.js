@@ -16,35 +16,39 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [newProducts, setNewProducts] = useState([]);
   const [bestSellers, setBestSellers] = useState([]);
-
-  const fetchProducts = async () => {
-    try {
-      setLoading(true);
-      const products = await ProductService.getAll();
-
-      const newItems = products
-        .filter(product => product.isNew)
-        .slice(0, 4);
-
-      const discountedItems = products
-        .filter(product => product.discount)
-        .sort((a, b) => b.discount - a.discount)
-        .slice(0, 4);
-
-      setNewProducts(newItems);
-      setBestSellers(discountedItems);
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [initializing, setInitializing] = useState(true);
 
   useEffect(() => {
-    fetchProducts();
+    const initializePage = async () => {
+      try {
+        setLoading(true);
+        const products = await ProductService.getAll();
+
+        const newItems = products
+          .filter(product => product.isNew)
+          .slice(0, 4);
+
+        const discountedItems = products
+          .filter(product => product.discount)
+          .sort((a, b) => b.discount - a.discount)
+          .slice(0, 4);
+
+        setNewProducts(newItems);
+        setBestSellers(discountedItems);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+        setInitializing(false);
+      }
+    };
+
+    initializePage();
   }, []);
 
-  if (loading) return <LoadingScreen />;
+  if (initializing) {
+    return <LoadingScreen />;
+  }
 
   return (
     <>
