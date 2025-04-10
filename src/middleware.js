@@ -2,14 +2,12 @@ import { NextResponse } from 'next/server';
 
 export function middleware(request) {
     const token = request.cookies.get('auth-token')?.value;
-    const isAuthPage = request.nextUrl.pathname.startsWith('/login');
 
-    if (!token && request.nextUrl.pathname.startsWith('/account')) {
-        const loginUrl = new URL('/login', request.url);
-        return NextResponse.redirect(loginUrl);
+    if (!token && request.nextUrl.pathname === '/checkout') {
+        return NextResponse.redirect(new URL('/login', request.url));
     }
 
-    if (token && isAuthPage) {
+    if (token && request.nextUrl.pathname === '/login') {
         return NextResponse.redirect(new URL('/account', request.url));
     }
 
@@ -17,5 +15,5 @@ export function middleware(request) {
 }
 
 export const config = {
-    matcher: ['/account/:path*', '/login']
+    matcher: ['/checkout/:path*', '/login']
 };

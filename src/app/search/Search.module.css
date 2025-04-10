@@ -22,3 +22,40 @@
 .pagination :global(.ant-pagination-item-active a) {
     color: #fff;
 }
+
+.searchPage {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.searchHeader {
+    margin-bottom: 24px;
+}
+
+.searchHeader h2 {
+    margin-bottom: 8px;
+    color: #2B2D42;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .searchPage {
+        padding: 16px;
+    }
+
+    .searchHeader {
+        margin-bottom: 16px;
+    }
+
+    .searchHeader h2 {
+        font-size: 20px;
+    }
+}
+
+/* High Contrast Mode */
+@media (forced-colors: active) {
+    .searchHeader h2 {
+        border-bottom: 1px solid ButtonText;
+    }
+}
