@@ -1,26 +1,30 @@
 .authContainer {
-    min-height: 60vh;
+    min-height: calc(100vh - 64px);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
+    background: #f5f5f5;
 }
 
 .authCard {
     width: 100%;
     max-width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .title {
     text-align: center;
     margin-bottom: 8px !important;
+    color: #2B2D42;
 }
 
 .subtitle {
     display: block;
     text-align: center;
     color: #8D99AE;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
 }
 
 .buttonContainer {
@@ -43,4 +47,72 @@
 
 .buttonContainer :global(.ant-btn-primary:hover) {
     opacity: 0.9;
+}
+
+.socialButton {
+    height: 48px !important;
+    font-size: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px;
+    border-radius: 24px;
+    transition: all 0.3s ease;
+}
+
+.socialButton:hover {
+    transform: translateY(-2px);
+}
+
+.divider {
+    color: #8D99AE !important;
+    margin: 24px 0 !important;
+}
+
+.guestButton {
+    height: 48px !important;
+    font-size: 16px !important;
+    color: #D10024 !important;
+}
+
+.guestButton:hover {
+    opacity: 0.8;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .authContainer {
+        padding: 16px;
+    }
+
+    .title {
+        font-size: 24px !important;
+    }
+
+    .subtitle {
+        font-size: 14px;
+    }
+
+    .socialButton {
+        height: 44px !important;
+        font-size: 15px !important;
+    }
+}
+
+/* High Contrast Mode */
+@media (forced-colors: active) {
+    .authCard {
+        border: 1px solid ButtonText;
+    }
+    
+    .socialButton {
+        border: 1px solid ButtonText;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .socialButton {
+        transition: none;
+    }
 }

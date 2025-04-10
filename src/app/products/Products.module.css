@@ -94,6 +94,29 @@
     color: #D10024;
 }
 
+.pageHeader {
+    background: #FBFBFC;
+    padding: 30px 0;
+    border-bottom: 1px solid #E4E7ED;
+}
+
+.pageTitle {
+    text-align: center;
+    margin-bottom: 16px !important;
+    color: #2B2D42;
+}
+
+.productsContent {
+    padding: 40px 0;
+}
+
+.errorState,
+.emptyState {
+    padding: 40px 0;
+    text-align: center;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
     .storeFilter {
         flex-direction: column;
@@ -103,5 +126,32 @@
     .storeSort {
         width: 100%;
         justify-content: space-between;
+    }
+
+    .pageHeader {
+        padding: 20px 0;
+    }
+
+    .productsContent {
+        padding: 20px 0;
+    }
+
+    .pageTitle {
+        font-size: 24px !important;
+    }
+}
+
+/* High Contrast Mode */
+@media (forced-colors: active) {
+    .pageHeader {
+        border-bottom: 1px solid ButtonText;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .productsContent * {
+        animation: none;
+        transition: none;
     }
 }
