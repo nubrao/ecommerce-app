@@ -179,14 +179,9 @@
     padding: 0px 30px 0px 50px;
 }
 
-/* Adjusting Ant Design Card */
 .product .ant-card-body {
     padding: 0;
 }
-
-/*----------------------------*\
-	Widget product
-\*----------------------------*/
 
 .product-widget .product-img {
     position: absolute;
@@ -226,6 +221,7 @@
 
 .productSection {
     padding: 40px 0;
+    width: 100%;
 }
 
 .sectionTitle {
@@ -347,4 +343,37 @@
 
 .actionButton.active svg {
     transform: scale(1.2);
+}
+
+.skeletonWrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.productContent {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .productSection {
+        padding: 20px 0;
+    }
+
+    .skeletonWrapper {
+        padding: 0 10px;
+    }
+}
+
+@media (forced-colors: active) {
+    .productSection {
+        border: 1px solid ButtonText;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .productSection * {
+        animation: none;
+        transition: none;
+    }
 }

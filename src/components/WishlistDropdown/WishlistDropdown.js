@@ -14,12 +14,13 @@ const WishlistDropdown = ({ onClose }) => {
     const handleRemove = (e, productId) => {
         e.stopPropagation();
         removeFromWishlist(productId);
+        message.success('Item removed from wishlist');
     };
 
     const handleItemClick = (product) => {
         if (!isInCart(product.id)) {
             addToCart(product);
-            message.success('Produto adicionado ao carrinho!');
+            message.success('Product added to cart!');
         }
     };
 
@@ -33,38 +34,62 @@ const WishlistDropdown = ({ onClose }) => {
         });
 
         if (addedCount > 0) {
-            message.success(`${addedCount} ${addedCount === 1 ? 'produto adicionado' : 'produtos adicionados'} ao carrinho!`);
+            message.success(`${addedCount} ${addedCount === 1 ? 'item' : 'items'} added to cart!`);
             onClose();
         } else {
-            message.info('Todos os produtos já estão no carrinho');
+            message.info('All items are already in cart');
         }
     };
 
     return (
-        <div className={styles.wishlistDropdown}>
+        <div
+            className={styles.wishlistDropdown}
+            role="dialog"
+            aria-label="Wishlist items"
+        >
+
             {wishlistItems.length === 0 ? (
                 <Empty
-                    description="Sua lista de desejos está vazia"
+                    description="Your wishlist is empty"
                     className={styles.emptyState}
+                    image={Empty.PRESENTED_IMAGE_SIMPLE}
                 />
             ) : (
                 <>
-                    <div className={styles.itemsList}>
+                    <div
+                        className={styles.itemsList}
+                        role="list"
+                        aria-label="Wishlist items"
+                    >
                         {wishlistItems.map(item => (
-                            <div 
-                                key={item.id} 
+                            <div
+                                key={item.id}
                                 className={styles.wishlistItem}
                                 onClick={() => handleItemClick(item)}
+                                role="listitem"
+                                tabIndex={0}
+                                onKeyPress={(e) => {
+                                    if (e.key === 'Enter') handleItemClick(item);
+                                }}
                             >
                                 <div className={styles.imageContainer}>
-                                    <img src={item.image} alt={item.title} />
+                                    <img
+                                        src={item.image}
+                                        alt={item.title}
+                                        width={50}
+                                        height={50}
+                                        loading="lazy"
+                                    />
                                 </div>
                                 <div className={styles.itemInfo}>
                                     <h4>{item.title}</h4>
                                     <p>${Number(item.price).toFixed(2)}</p>
                                     {isInCart(item.id) && (
-                                        <span className={styles.inCartBadge}>
-                                            No carrinho
+                                        <span
+                                            className={styles.inCartBadge}
+                                            role="status"
+                                        >
+                                            In cart
                                         </span>
                                     )}
                                 </div>
@@ -73,19 +98,23 @@ const WishlistDropdown = ({ onClose }) => {
                                     icon={<FaTrash />}
                                     onClick={(e) => handleRemove(e, item.id)}
                                     className={styles.removeBtn}
+                                    aria-label={`Remove ${item.title} from wishlist`}
                                 />
                             </div>
                         ))}
                     </div>
-                    <Button
-                        type="primary"
-                        icon={<FaShoppingCart />}
-                        onClick={handleAddAllToCart}
-                        className={styles.addAllButton}
-                        block
-                    >
-                        Adicionar todos ao carrinho
-                    </Button>
+                    <div className={styles.dropdownFooter}>
+                        <Button
+                            type="primary"
+                            icon={<FaShoppingCart />}
+                            onClick={handleAddAllToCart}
+                            className={styles.addAllButton}
+                            size="large"
+                            block
+                        >
+                            Add all to cart
+                        </Button>
+                    </div>
                 </>
             )}
         </div>

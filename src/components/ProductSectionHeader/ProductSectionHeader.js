@@ -1,22 +1,38 @@
+'use client';
+
 import React from 'react';
 import { Typography } from 'antd';
 import styles from './ProductSectionHeader.module.css';
 
-const { Title, Paragraph } = Typography;
+const { Title, Text } = Typography;
 
-const ProductSectionHeader = ({
-    title,
-    description
+const ProductSectionHeader = ({ 
+    title, 
+    description,
+    className,
+    ...props 
 }) => {
     return (
-        <div className={styles.sectionHeader}>
-            <Title level={2} className={styles.sectionTitle}>
+        <header 
+            className={`${styles.sectionHeader} ${className || ''}`}
+            role="presentation"
+            {...props}
+        >
+            <Title 
+                level={2} 
+                className={styles.title}
+            >
                 {title}
             </Title>
-            <Paragraph className={styles.sectionDescription}>
-                {description}
-            </Paragraph>
-        </div>
+            {description && (
+                <Text 
+                    className={styles.description}
+                    type="secondary"
+                >
+                    {description}
+                </Text>
+            )}
+        </header>
     );
 };
 

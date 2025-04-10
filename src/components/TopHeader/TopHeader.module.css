@@ -1,6 +1,6 @@
 .topHeader {
     padding: 10px 0;
-    background-color: #1e1f29;
+    background-color: #1E1F29;
     color: #fff;
 }
 
@@ -11,6 +11,27 @@
     padding: 0 15px;
 }
 
+.headerWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contactNav,
+.userNav {
+    display: flex;
+    align-items: center;
+}
+
+.contactList,
+.userOptions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
 .headerLink {
     display: inline-flex;
     align-items: center;
@@ -19,15 +40,10 @@
     font-size: 12px;
     text-decoration: none;
     transition: color 0.2s ease;
-    padding: 4px 8px; /* Aumenta a área clicável */
 }
 
-.headerLink:hover,
-.headerLink:focus {
+.headerLink:hover {
     color: #d10024;
-    text-decoration: underline; /* Melhora feedback visual */
-    outline: 2px solid #d10024; /* Destaque visual para foco */
-    border-radius: 4px;
 }
 
 .headerIcon {
@@ -41,11 +57,47 @@
     margin: 0;
 }
 
-.contactList,
-.userOptions {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.currencyWrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.currencySelect {
+    min-width: 100px;
+    color: #FFF !important;
+}
+
+.currencySelect :global(.ant-select-selector) {
+    background-color: transparent !important;
+    border: none !important;
+    color: #FFF !important;
+}
+
+.currencySelect :global(.ant-select-arrow) {
+    color: #FFF;
+}
+
+.currencyDropdown {
+    background-color: #1E1F29;
+}
+
+.currencyDropdown :global(.ant-select-item) {
+    color: #FFF;
+}
+
+.currencyDropdown :global(.ant-select-item-option-selected) {
+    background-color: #D10024;
+}
+
+.currencyDropdown :global(.ant-select-item-option-active) {
+    background-color: #2B2D42;
+}
+
+.exchangeRate {
+    color: #8D99AE;
+    font-size: 11px;
+    margin-left: 10px;
 }
 
 /* Suporte para alto contraste */
@@ -63,6 +115,29 @@
 @media (prefers-reduced-motion: reduce) {
     .headerLink {
         transition: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .headerWrapper {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .contactNav,
+    .userNav {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .headerLinks {
+        width: 100%;
+        justify-content: center;
     }
 }
 

@@ -28,11 +28,11 @@
 
 .headerSearch form {
     position: relative;
-    width: 100%;
+    width: 550px;
 }
 
 .inputSelect {
-    width: 160px !important;
+    width: 60px !important;
     margin-right: -1px;
     min-width: 160px;
     height: 40px;
@@ -96,16 +96,7 @@
     display: flex !important;
     align-items: center;
     justify-content: center;
-    height: 40px;
-    width: 100px;
-    background: #d10024;
-    color: #fff;
     font-weight: 700;
-    border: none;
-    border-radius: 0 40px 40px 0 !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -290,7 +281,10 @@
 
     .headerSearch {
         width: 100%;
-        padding-left: 8px;
+    }
+
+    .headerSearch form {
+        max-width: 100% !important;
     }
 
     .input {

@@ -54,3 +54,59 @@
 .categoryTab:hover {
     color: #d10024;
 }
+
+.title {
+    color: #2B2D42;
+    margin-bottom: 16px !important;
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+}
+
+.title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: #D10024;
+    margin: 15px auto 0;
+}
+
+.description {
+    color: #8D99AE;
+    font-size: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+    display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sectionHeader {
+        margin-bottom: 30px;
+        padding: 0 15px;
+    }
+
+    .title {
+        font-size: 24px !important;
+    }
+
+    .description {
+        font-size: 14px;
+    }
+}
+
+/* High Contrast Mode */
+@media (forced-colors: active) {
+    .title::after {
+        background: ButtonText;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .title,
+    .description {
+        transition: none;
+    }
+}

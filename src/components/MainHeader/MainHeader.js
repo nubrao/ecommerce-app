@@ -160,14 +160,16 @@ const MainHeader = () => {
         <header className={styles.header} role="banner">
             <div className={styles.container}>
                 <Row justify="space-between" align="middle">
-                    <Col xs={4} sm={4} md={4} lg={4}>
-                        <div className={styles.headerLogo}>
-                            <a href="/" className={styles.logo} aria-label="Go to homepage">
-                                <img src="/logo.svg" alt="E-commerce Logo" />
-                            </a>
-                        </div>
-                    </Col>
-                    <Col xs={20} sm={20} md={12} lg={12}>
+                    {!isMobile && (
+                        <Col xs={4} sm={4} md={4} lg={4}>
+                            <div className={styles.headerLogo}>
+                                <a href="/" className={styles.logo} aria-label="Go to homepage">
+                                    <img src="/logo.svg" alt="E-commerce Logo" />
+                                </a>
+                            </div>
+                        </Col>
+                    )}
+                    <Col xs={24} sm={24} md={8} lg={8}>
                         <div className={styles.headerSearch} role="search">
                             <form onSubmit={(e) => {
                                 e.preventDefault();
