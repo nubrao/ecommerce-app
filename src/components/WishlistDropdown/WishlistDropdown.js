@@ -1,37 +1,38 @@
 'use client';
 
 import React from 'react';
-import { Empty, Button, message } from 'antd';
-import { FaTrash, FaShoppingCart } from 'react-icons/fa';
-import { useWishlist } from '@/contexts/WishlistContext';
+import { Button, Typography, Empty, App } from 'antd';
+import { DeleteOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useCart } from '@/contexts/CartContext';
-import { useRouter } from 'next/navigation';
+import { useWishlist } from '@/contexts/WishlistContext';
 import styles from './WishlistDropdown.module.css';
 
+const { Text, Title } = Typography;
+
 const WishlistDropdown = ({ onClose }) => {
-    const router = useRouter();
+    const { message } = App.useApp();
+    const { addToCart } = useCart();
     const { wishlistItems, removeFromWishlist } = useWishlist();
-    const { addToCart, isInCart } = useCart();
 
     const handleRemove = (e, productId) => {
         e.stopPropagation();
         removeFromWishlist(productId);
-        message.success('Item removed from wishlist');
+        e.currentTarget.blur();
     };
 
-    const handleItemClick = (e, product) => {
-        e.preventDefault();
-        onClose();
-        router.push(`/product/${product.id}`);
+    const handleAddToCart = (e, item) => {
+        e.stopPropagation();
+        addToCart(item);
+        message.success('Item added to cart!');
+        e.currentTarget.blur();
     };
 
     const handleAddAllToCart = () => {
         let addedCount = 0;
+
         wishlistItems.forEach(item => {
-            if (!isInCart(item.id)) {
-                addToCart(item);
-                addedCount++;
-            }
+            addToCart(item);
+            addedCount++;
         });
 
         if (addedCount > 0) {
@@ -46,10 +47,9 @@ const WishlistDropdown = ({ onClose }) => {
         <div
             className={styles.wishlistDropdown}
             role="dialog"
-            aria-label="Wishlist items"
+            aria-label="Wishlist"
         >
-
-            {wishlistItems.length === 0 ? (
+            {!wishlistItems?.length ? (
                 <Empty
                     description="Your wishlist is empty"
                     className={styles.emptyState}
@@ -66,12 +66,7 @@ const WishlistDropdown = ({ onClose }) => {
                             <div
                                 key={item.id}
                                 className={styles.wishlistItem}
-                                onClick={(e) => handleItemClick(e, item)}
                                 role="listitem"
-                                tabIndex={0}
-                                onKeyPress={(e) => {
-                                    if (e.key === 'Enter') handleItemClick(e, item);
-                                }}
                             >
                                 <div className={styles.imageContainer}>
                                     <img
@@ -83,39 +78,46 @@ const WishlistDropdown = ({ onClose }) => {
                                     />
                                 </div>
                                 <div className={styles.itemInfo}>
-                                    <h4>{item.title}</h4>
-                                    <p>${Number(item.price).toFixed(2)}</p>
-                                    {isInCart(item.id) && (
-                                        <span
-                                            className={styles.inCartBadge}
-                                            role="status"
-                                        >
-                                            In cart
-                                        </span>
-                                    )}
+                                    <Title
+                                        level={5}
+                                        className={styles.itemTitle}
+                                        ellipsis={{ rows: 2 }}
+                                    >
+                                        {item.title}
+                                    </Title>
+                                    <Text type="secondary">
+                                        ${Number(item.price).toFixed(2)}
+                                    </Text>
                                 </div>
-                                <Button
-                                    type="text"
-                                    icon={<FaTrash />}
-                                    onClick={(e) => handleRemove(e, item.id)}
-                                    className={styles.removeBtn}
-                                    aria-label={`Remove ${item.title} from wishlist`}
-                                />
+                                <div className={styles.actions}>
+                                    <Button
+                                        type="text"
+                                        icon={<ShoppingCartOutlined />}
+                                        onClick={(e) => handleAddToCart(e, item)}
+                                        className={styles.actionBtn}
+                                        aria-label={`Add ${item.title} to cart`}
+                                    />
+                                    <Button
+                                        type="text"
+                                        icon={<DeleteOutlined />}
+                                        onClick={(e) => handleRemove(e, item.id)}
+                                        className={styles.actionBtn}
+                                        aria-label={`Remove ${item.title} from wishlist`}
+                                    />
+                                </div>
                             </div>
                         ))}
                     </div>
-                    <div className={styles.dropdownFooter}>
-                        <Button
-                            type="primary"
-                            icon={<FaShoppingCart />}
-                            onClick={handleAddAllToCart}
-                            className={styles.addAllButton}
-                            size="large"
-                            block
-                        >
-                            Add all to cart
-                        </Button>
-                    </div>
+                    <Button
+                        type="primary"
+                        icon={<ShoppingCartOutlined />}
+                        onClick={handleAddAllToCart}
+                        className={styles.addAllButton}
+                        block
+                        size="large"
+                    >
+                        Add All to Cart
+                    </Button>
                 </>
             )}
         </div>

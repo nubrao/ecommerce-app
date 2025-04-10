@@ -16,7 +16,7 @@ const { Content } = Layout;
 const ClientProviders = ({ children }) => {
     const pathname = usePathname();
 
-    const isAuthPage = pathname?.includes('/checkout/auth');
+    const isAuthPage = pathname?.includes('/login');
 
     return (
         <LocalizationProvider>

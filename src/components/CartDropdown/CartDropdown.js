@@ -23,7 +23,7 @@ const CartDropdown = ({ onClose }) => {
 
         if (!authToken || !userInfo) {
             message.error('Please login to proceed with checkout');
-            localStorage.setItem('redirect-after-login', '/checkout');
+            localStorage.setItem('redirect-after-login', '/checkout/checkout');
             onClose();
             router.push('/login');
             return;
@@ -43,7 +43,7 @@ const CartDropdown = ({ onClose }) => {
             timestamp: Date.now()
         };
 
-        localStorage.setItem('checkout-data-teste', JSON.stringify(checkoutData));
+        localStorage.setItem('checkout-data', JSON.stringify(checkoutData));
 
         fetch(`${process.env.NEXT_PUBLIC_PROXY_URL}/api/shared/cart`, {
             method: 'POST',
@@ -57,7 +57,7 @@ const CartDropdown = ({ onClose }) => {
             return res.json();
         }).then(data => {
             console.log('Saved cart response:', data);
-            router.push(`${process.env.NEXT_PUBLIC_PROXY_URL}/checkout`);
+            router.push(`${process.env.NEXT_PUBLIC_PROXY_URL}/checkout/checkout`);
         }).catch(error => {
             console.error('Error saving cart data:', error);
             message.error('Could not proceed to checkout');

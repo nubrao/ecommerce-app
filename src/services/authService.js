@@ -25,15 +25,16 @@ export const authService = {
             const userResponse = await fetch(`${API_URL}/users/1`);
             const userData = await userResponse.json();
 
-            console.log(userData);
-
             localStorage.setItem('user-info', JSON.stringify({
-                id: userData.id,
+                fullName: `${userData.name.firstname} ${userData.name.lastname}`,
                 email: userData.email,
-                username: userData.username,
-                name: userData.name,
+                phone: userData.phone,
+                address: `${userData.address.number}, ${userData.address.street}`,
+                city: userData.address.city,
+                zipcode: userData.address.zipcode,
                 timestamp: Date.now()
             }));
+
 
             return {
                 token: data.token,
