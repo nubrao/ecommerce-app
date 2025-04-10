@@ -184,3 +184,15 @@
 .itemsList::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+.itemDetails {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.quantityInput {
+    width: 60px !important;
+}

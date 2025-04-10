@@ -36,7 +36,13 @@ const LoginPage = () => {
             setLoading(true);
             await login(values.username, values.password);
             message.success('Welcome back! Login successful.');
-            router.push('/account');
+
+            const token = localStorage.getItem('auth-token');
+            if (!token) {
+                throw new Error('No token received');
+            }
+            
+            router.push('/');
         } catch (error) {
             message.error('Login failed. Please check your username and password.');
         } finally {

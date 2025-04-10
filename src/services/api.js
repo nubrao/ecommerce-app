@@ -154,5 +154,27 @@ export const ProductService = {
             console.error('Error fetching featured products:', error);
             throw error;
         }
+    },
+
+    submitCart: async (orderData) => {
+        try {
+            const response = await fetch(`${API_URL}/carts`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
+                },
+                body: JSON.stringify(orderData)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to submit order');
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Error submitting cart:', error);
+            throw error;
+        }
     }
 };

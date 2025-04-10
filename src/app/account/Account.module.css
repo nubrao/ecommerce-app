@@ -1,7 +1,13 @@
 .accountPage {
     max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
+    margin: 24px auto;
+    padding: 0 24px;
+}
+
+.accountCard {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .accountHeader {
@@ -11,8 +17,21 @@
     margin-bottom: 24px;
 }
 
+.accountHeader h2 {
+    margin: 0;
+}
+
+.logoutButton {
+    font-weight: 500;
+}
+
 .accountTabs {
     min-height: 400px;
+    margin-top: 16px;
+}
+
+.accountTabs :global(.ant-tabs-nav) {
+    margin-bottom: 24px;
 }
 
 .profileSection,
@@ -71,13 +90,19 @@
 /* Responsive Design */
 @media (max-width: 768px) {
     .accountPage {
-        margin: 20px auto;
+        margin: 16px auto;
+        padding: 0 16px;
     }
 
     .accountHeader {
         flex-direction: column;
         gap: 16px;
         text-align: center;
+        align-items: flex-start;
+    }
+
+    .accountHeader h2 {
+        font-size: 24px;
     }
 
     .accountTabs :global(.ant-tabs-nav) {
@@ -91,7 +116,7 @@
     .wishlistSection {
         padding: 16px 0;
     }
-    
+
     .wishlistCard {
         margin-bottom: 16px;
     }
