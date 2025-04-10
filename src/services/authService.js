@@ -15,26 +15,32 @@ export const authService = {
             });
 
             if (!response.ok) {
-                throw new Error('Login failed');
+                throw new Error('Invalid credentials');
             }
 
             const data = await response.json();
-
             localStorage.setItem('auth-token', data.token);
 
             const userResponse = await fetch(`${API_URL}/users/1`);
             const userData = await userResponse.json();
 
             localStorage.setItem('user-info', JSON.stringify({
-                fullName: `${userData.name.firstname} ${userData.name.lastname}`,
+                id: userData.id,
                 email: userData.email,
+                username: userData.username,
+                name: {
+                    firstname: userData.name.firstname,
+                    lastname: userData.name.lastname
+                },
                 phone: userData.phone,
-                address: `${userData.address.number}, ${userData.address.street}`,
-                city: userData.address.city,
-                zipcode: userData.address.zipcode,
-                timestamp: Date.now()
+                address: {
+                    number: userData.address.number,
+                    street: userData.address.street,
+                    city: userData.address.city,
+                    zipcode: userData.address.zipcode,
+                    geolocation: userData.address.geolocation
+                }
             }));
-
 
             return {
                 token: data.token,

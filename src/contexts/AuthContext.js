@@ -11,9 +11,16 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const userInfo = localStorage.getItem('user-info');
+
         if (userInfo && authService.isAuthenticated()) {
-            setUser(JSON.parse(userInfo));
+            try {
+                const parsed = JSON.parse(userInfo);
+                setUser(parsed);
+            } catch (error) {
+                console.error('Erro ao fazer JSON.parse:', error);
+            }
         }
+
         setLoading(false);
     }, []);
 
@@ -21,6 +28,7 @@ export const AuthProvider = ({ children }) => {
         try {
             const { user: userData } = await authService.login(username, password);
             setUser(userData);
+            localStorage.setItem('user-info', JSON.stringify(userData));
             return userData;
         } catch (error) {
             throw error;

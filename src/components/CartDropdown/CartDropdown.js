@@ -13,55 +13,35 @@ const { Title, Text } = Typography;
 const CartDropdown = ({ onClose }) => {
     const router = useRouter();
     const { message } = App.useApp();
-    const { cartItems, removeFromCart, updateQuantity, total } = useCart();
+    const { cartItems, removeFromCart, updateQuantity } = useCart();
 
-    const handleCheckout = (e) => {
+    const handleCheckout = async (e) => {
         e.preventDefault();
+        onClose();
 
-        const authToken = localStorage.getItem('auth-token');
-        const userInfo = localStorage.getItem('user-info');
+        try {
+            const checkoutData = {
+                cartItems,
+                total: calculateTotal(),
+                timestamp: Date.now()
+            };
 
-        if (!authToken || !userInfo) {
-            message.error('Please login to proceed with checkout');
-            localStorage.setItem('redirect-after-login', '/checkout/checkout');
-            onClose();
-            router.push('/login');
-            return;
-        }
+            const response = await fetch(`${process.env.NEXT_PUBLIC_PROXY_URL}/api/shared/cart`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(checkoutData),
+                credentials: 'include'
+            });
 
-        const checkoutData = {
-            cartItems: cartItems.map(item => ({
-                id: item.id,
-                title: item.title,
-                price: Number(item.price),
-                quantity: Number(item.quantity || 1),
-                image: item.image,
-                description: item.description || '',
-                category: item.category || ''
-            })),
-            total: cartItems.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0),
-            timestamp: Date.now()
-        };
+            if (!response.ok) throw new Error('Failed to save cart data');
 
-        localStorage.setItem('checkout-data', JSON.stringify(checkoutData));
-
-        fetch(`${process.env.NEXT_PUBLIC_PROXY_URL}/api/shared/cart`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(checkoutData),
-            credentials: 'include'
-        }).then(res => {
-            if (!res.ok) throw new Error('Failed to save cart data');
-            return res.json();
-        }).then(data => {
-            console.log('Saved cart response:', data);
-            router.push(`${process.env.NEXT_PUBLIC_PROXY_URL}/checkout/checkout`);
-        }).catch(error => {
+            window.location.href = `${process.env.NEXT_PUBLIC_PROXY_URL}/checkout`;
+        } catch (error) {
             console.error('Error saving cart data:', error);
             message.error('Could not proceed to checkout');
-        });
+        }
     };
 
     const handleRemove = (e, productId) => {

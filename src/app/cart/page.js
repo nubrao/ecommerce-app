@@ -23,7 +23,7 @@ const CartPage = () => {
             return;
         }
 
-        router.push('/checkout/checkout');
+        router.push('/checkout');
     };
 
     return (

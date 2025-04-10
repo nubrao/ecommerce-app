@@ -23,28 +23,26 @@ const { Title, Text } = Typography;
 const AccountPage = () => {
     const router = useRouter();
     const { message } = App.useApp();
-    const { user, logout } = useAuth();
+    const { user, logout, loading } = useAuth();
     const { wishlistItems } = useWishlist();
     const { cartItems } = useCart();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const checkAuth = () => {
-            const auth = validateAuth();
+        if (loading) return;
 
-            if (!auth.isValid && !user) {
-                message.error('Please login to access your account');
-                router.replace('/login');
-                return;
-            }
+        const auth = validateAuth();
 
-            setIsLoading(false);
-        };
+        if (!auth.isValid && !user) {
+            message.error('Please login to access your account');
+            router.replace('/login');
+            return;
+        }
 
-        checkAuth();
-    }, [router, message]);
+        setIsLoading(false);
+    }, [loading, router, message, user]);
 
-    if (isLoading) {
+    if (loading || isLoading) {
         return <LoadingScreen />;
     }
 

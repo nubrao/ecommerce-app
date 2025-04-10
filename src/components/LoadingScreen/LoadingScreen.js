@@ -26,9 +26,6 @@ const LoadingScreen = () => {
                         />
                     }
                 >
-                    <div className={styles.loadingContent}>
-                        <span className={styles.loadingText}>Loading...</span>
-                    </div>
                 </Spin>
             </div>
         </div>
