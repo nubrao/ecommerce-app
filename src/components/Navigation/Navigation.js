@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { Menu } from 'antd';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './Navigation.module.css';
 
@@ -10,12 +9,12 @@ const Navigation = () => {
     const pathname = usePathname();
     const [current, setCurrent] = useState(pathname);
 
-    const navigationItems = [
-        { key: '/', label: 'Home', href: '/' },
-        { key: '/electronics', label: 'Electronics', href: '/category/electronics' },
-        { key: '/jewelery', label: 'Jewelry', href: '/category/jewelery' },
-        { key: '/mens-clothing', label: "Men's Clothing", href: '/category/mens-clothing' },
-        { key: '/womens-clothing', label: "Women's Clothing", href: '/category/womens-clothing' }
+    const menuItems = [
+        { key: '/', label: <a href="/">Home</a> },
+        { key: '/electronics', label: <a href="/category/electronics">Electronics</a> },
+        { key: '/jewelery', label: <a href="/category/jewelery">Jewelry</a> },
+        { key: '/mens-clothing', label: <a href="/category/mens-clothing">Men's Clothing</a> },
+        { key: '/womens-clothing', label: <a href="/category/womens-clothing">Women's Clothing</a> }
     ];
 
     const onClick = (e) => {
@@ -30,24 +29,8 @@ const Navigation = () => {
                     selectedKeys={[current]}
                     mode="horizontal"
                     className={styles.menu}
-                    role="menubar"
-                >
-                    {navigationItems.map(item => (
-                        <Menu.Item
-                            key={item.key}
-                            role="menuitem"
-                            className={styles.menuItem}
-                        >
-                            <Link
-                                href={item.href}
-                                className={styles.menuLink}
-                                aria-current={current === item.key ? 'page' : undefined}
-                            >
-                                {item.label}
-                            </Link>
-                        </Menu.Item>
-                    ))}
-                </Menu>
+                    items={menuItems}
+                />
             </div>
         </nav>
     );
