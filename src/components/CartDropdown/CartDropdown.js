@@ -19,13 +19,11 @@ const CartDropdown = ({ onClose }) => {
         e.preventDefault();
 
         const authToken = localStorage.getItem('auth-token');
-        const authData = localStorage.getItem('auth-data');
+        const userInfo = localStorage.getItem('user-info');
 
-        if (!authToken || !authData) {
+        if (!authToken || !userInfo) {
             message.error('Please login to proceed with checkout');
-
             localStorage.setItem('redirect-after-login', '/checkout');
-
             onClose();
             router.push('/login');
             return;
@@ -42,16 +40,28 @@ const CartDropdown = ({ onClose }) => {
                 category: item.category || ''
             })),
             total: cartItems.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0),
-            timestamp: Date.now(),
-            authToken,
-            authData
+            timestamp: Date.now()
         };
 
-        localStorage.setItem('checkout-data', JSON.stringify(checkoutData));
+        localStorage.setItem('checkout-data-teste', JSON.stringify(checkoutData));
 
-        onClose();
-
-        window.location.replace(process.env.NEXT_PUBLIC_CHECKOUT_APP_URL);
+        fetch(`${process.env.NEXT_PUBLIC_PROXY_URL}/api/shared/cart`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(checkoutData),
+            credentials: 'include'
+        }).then(res => {
+            if (!res.ok) throw new Error('Failed to save cart data');
+            return res.json();
+        }).then(data => {
+            console.log('Saved cart response:', data);
+            router.push(`${process.env.NEXT_PUBLIC_PROXY_URL}/checkout`);
+        }).catch(error => {
+            console.error('Error saving cart data:', error);
+            message.error('Could not proceed to checkout');
+        });
     };
 
     const handleRemove = (e, productId) => {
