@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# E-commerce App 🛍️
 
-## Getting Started
+Main shopping application for the e-commerce microfront-end architecture.
 
-First, run the development server:
+## 🚀 Features
 
+- Product catalog and browsing
+- Shopping cart management
+- Product search and filtering
+- Wishlist management
+- Order history
+- Responsive design
+- Integration with checkout process
+
+## 🛠️ Technologies
+
+- Next.js 14
+- React.js
+- Ant Design
+- Context API for state management
+- CSS Modules for styling
+- Jest & Testing Library for tests
+
+## 📋 Prerequisites
+
+- Node.js 20.x or later
+- npm or yarn
+- Docker (for containerized environment)
+
+## 🏃‍♂️ Running the Project
+
+### Local Development
+
+1. Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Set up environment variables:
+```bash
+NEXT_PUBLIC_PROXY_URL=http://localhost:8080
+NEXT_PUBLIC_CHECKOUT_APP_URL=http://localhost:8080/checkout
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+3. Start the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Using Docker
 
-## Learn More
+```bash
+docker compose up ecommerce-app
+```
 
-To learn more about Next.js, take a look at the following resources:
+The application will be available at:
+- Local: http://localhost:3000
+- Docker: http://localhost:8080 (via proxy)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧪 Testing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Run unit tests:
+```bash
+npm test
+```
 
-## Deploy on Vercel
+Run tests with coverage:
+```bash
+npm run test:coverage
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📁 Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+ecommerce-app/
+├── src/
+│   ├── app/          # Next.js app directory
+│   ├── components/   # React components
+│   ├── contexts/     # React contexts
+│   ├── services/     # API services
+│   └── styles/       # CSS modules
+├── public/           # Static files
+└── tests/           # Test files
+```
+
+## 🔄 Dependencies
+
+This project is part of a microfront-end architecture and requires:
+- `ecommerce-proxy` - API Gateway/BFF
+- `checkout-app` - Checkout process
+
+## 📚 Available Scripts
+
+- `npm run dev` - Run development server
+- `npm run build` - Build for production
+- `npm start` - Start production server
+- `npm test` - Run tests
+- `npm run lint` - Run ESLint
