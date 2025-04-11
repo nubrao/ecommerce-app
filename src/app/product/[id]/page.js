@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { Typography, Rate, Button, Row, Col, Tag, Divider, App } from 'antd';
 import { ShoppingCartOutlined, HeartOutlined, HeartFilled } from '@ant-design/icons';
@@ -9,6 +9,7 @@ import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import LoadingScreen from '@/components/LoadingScreen/LoadingScreen';
+import Image from 'next/image';
 import styles from './Product.module.css';
 
 const { Title, Text, Paragraph } = Typography;
@@ -21,14 +22,10 @@ const ProductDetail = () => {
     const { addToCart, isInCart } = useCart();
     const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
-    useEffect(() => {
-        fetchProduct();
-    }, [params.id]);
-
-    const fetchProduct = async () => {
+    const fetchProduct = useCallback(async (id) => {
         try {
             setLoading(true);
-            const data = await ProductService.getById(params.id);
+            const data = await ProductService.getById(id);
             setProduct(data);
         } catch (error) {
             console.error('Error fetching product:', error);
@@ -36,7 +33,11 @@ const ProductDetail = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [message]);
+
+    useEffect(() => {
+        fetchProduct(params.id);
+    }, [params.id, fetchProduct]);
 
     const handleAddToCart = () => {
         addToCart(product);
@@ -77,12 +78,13 @@ const ProductDetail = () => {
                                 role="img"
                                 aria-label={product.title}
                             >
-                                <img
+                                <Image
                                     src={product.image}
                                     alt={product.title}
-                                    loading="eager"
                                     width={400}
                                     height={400}
+                                    priority
+                                    className={styles.productImage}
                                 />
                                 {product.discount > 0 && (
                                     <Tag

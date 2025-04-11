@@ -70,8 +70,8 @@ const Footer = () => {
                                 <Space direction="vertical">
                                     <Link href="/category/electronics" className={styles.footerLink}>Electronics</Link>
                                     <Link href="/category/jewelery" className={styles.footerLink}>Jewelery</Link>
-                                    <Link href="/category/mens-clothing" className={styles.footerLink}>Men's Clothing</Link>
-                                    <Link href="/category/womens-clothing" className={styles.footerLink}>Women's Clothing</Link>
+                                    <Link href="/category/mens-clothing" className={styles.footerLink}>Men&apos;s Clothing</Link>
+                                    <Link href="/category/womens-clothing" className={styles.footerLink}>Women&apos;s Clothing</Link>
                                 </Space>
                             </div>
                         </Col>
@@ -82,11 +82,11 @@ const Footer = () => {
                                     Information
                                 </Title>
                                 <Space direction="vertical">
-                                    <Link href="/about" className={styles.footerLink}>About Us</Link>
-                                    <Link href="/contact" className={styles.footerLink}>Contact Us</Link>
-                                    <Link href="/privacy" className={styles.footerLink}>Privacy Policy</Link>
-                                    <Link href="/terms" className={styles.footerLink}>Terms & Conditions</Link>
-                                    <Link href="/faq" className={styles.footerLink}>FAQ</Link>
+                                    <Link href="/" className={styles.footerLink}>About Us</Link>
+                                    <Link href="/" className={styles.footerLink}>Contact Us</Link>
+                                    <Link href="/" className={styles.footerLink}>Privacy Policy</Link>
+                                    <Link href="/" className={styles.footerLink}>Terms & Conditions</Link>
+                                    <Link href="/" className={styles.footerLink}>FAQ</Link>
                                 </Space>
                             </div>
                         </Col>
@@ -98,10 +98,10 @@ const Footer = () => {
                                 </Title>
                                 <Space direction="vertical">
                                     <Link href="/account" className={styles.footerLink}>My Account</Link>
-                                    <Link href="/orders" className={styles.footerLink}>Order History</Link>
-                                    <Link href="/wishlist" className={styles.footerLink}>Wishlist</Link>
-                                    <Link href="/returns" className={styles.footerLink}>Returns</Link>
-                                    <Link href="/support" className={styles.footerLink}>Support</Link>
+                                    <Link href="/account" className={styles.footerLink}>Order History</Link>
+                                    <Link href="/account" className={styles.footerLink}>Wishlist</Link>
+                                    <Link href="/" className={styles.footerLink}>Returns</Link>
+                                    <Link href="/" className={styles.footerLink}>Support</Link>
                                 </Space>
                             </div>
                         </Col>

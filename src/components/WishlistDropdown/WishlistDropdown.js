@@ -5,6 +5,7 @@ import { Button, Typography, Empty, App } from 'antd';
 import { DeleteOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
+import Image from 'next/image';
 import styles from './WishlistDropdown.module.css';
 
 const { Text, Title } = Typography;
@@ -69,12 +70,12 @@ const WishlistDropdown = ({ onClose }) => {
                                 role="listitem"
                             >
                                 <div className={styles.imageContainer}>
-                                    <img
+                                    <Image
                                         src={item.image}
                                         alt={item.title}
                                         width={50}
                                         height={50}
-                                        loading="lazy"
+                                        className={styles.productImage}
                                     />
                                 </div>
                                 <div className={styles.itemInfo}>

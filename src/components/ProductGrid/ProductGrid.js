@@ -12,6 +12,7 @@ import {
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import styles from './ProductGrid.module.css';
+import Image from 'next/image';
 
 const { Text, Title } = Typography;
 
@@ -39,7 +40,7 @@ const ProductGrid = ({ products, loading = false }) => {
     return (
         <div role="region" aria-label="Products grid">
             <Row gutter={[16, 16]} className={styles.productGrid}>
-                {products.map((product) => (
+                {products.map((product, index) => (
                     <Col xs={24} sm={12} md={8} lg={6} key={product.id}>
                         <Card
                             hoverable
@@ -47,13 +48,13 @@ const ProductGrid = ({ products, loading = false }) => {
                             onClick={(e) => handleProductClick(e, product.id)}
                             cover={
                                 <div className={styles.imageContainer}>
-                                    <img
-                                        alt={`Product: ${product.title}`}
+                                    <Image
                                         src={product.image}
-                                        className={styles.productImage}
-                                        loading="lazy"
+                                        alt={product.title}
                                         width={200}
                                         height={200}
+                                        className={styles.productImage}
+                                        priority={index < 4}
                                     />
                                     {product.discount > 0 && (
                                         <span

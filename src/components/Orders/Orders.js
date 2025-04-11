@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Table, Tag, Typography, Empty, App } from 'antd';
 import { cartService } from '@/services/cartService';
 import { ProductService } from '@/services/api';
@@ -14,13 +14,7 @@ const Orders = ({ userId }) => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        if (userId) {
-            fetchOrders();
-        }
-    }, [userId]);
-
-    const fetchOrders = async () => {
+    const fetchOrders = useCallback(async () => {
         try {
             setLoading(true);
             const userCarts = await cartService.getUserCarts(userId);
@@ -50,7 +44,13 @@ const Orders = ({ userId }) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [userId, message]);
+
+    useEffect(() => {
+        if (userId) {
+            fetchOrders();
+        }
+    }, [userId, fetchOrders]);
 
     const calculateTotal = (products, productsMap) => {
         return products.reduce((total, item) => {

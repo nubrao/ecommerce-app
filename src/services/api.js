@@ -1,4 +1,5 @@
 const BASE_URL = 'https://fakestoreapi.com';
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const categoryMap = {
     'mens-clothing': "men's clothing",

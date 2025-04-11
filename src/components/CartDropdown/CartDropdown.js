@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
 import { DeleteOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { authService } from '@/services/authService';
+import Image from 'next/image';
 import styles from './CartDropdown.module.css';
 
 const { Title, Text } = Typography;
@@ -99,12 +100,12 @@ const CartDropdown = ({ onClose }) => {
                                 }}
                             >
                                 <div className={styles.imageContainer}>
-                                    <img
+                                    <Image
                                         src={item.image}
                                         alt={item.title}
                                         width={50}
                                         height={50}
-                                        loading="lazy"
+                                        className={styles.productImage}
                                     />
                                 </div>
                                 <div className={styles.itemInfo}>

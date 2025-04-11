@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Input, Card, Col, Row } from 'antd';
+import Image from 'next/image';
 import styles from '../styles/Search.module.css';
 import { ProductService } from '../services/api';
 
@@ -42,7 +43,7 @@ const Search = () => {
             <Row gutter={16} className={styles.searchResults}>
                 {filteredProducts.map((product) => (
                     <Col span={8} key={product.id}>
-                        <Card title={product.title} cover={<img alt={product.title} src={product.image} />}>
+                        <Card title={product.title} cover={<Image src={product.image} alt={product.title} width={80} height={80} className={styles.productImage} />}>
                             <p>{product.price}</p>
                         </Card>
                     </Col>
